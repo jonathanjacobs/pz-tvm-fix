@@ -12,5 +12,6 @@
 - Added an opt-out traffic-control switch and opt-in, aggregate diagnostics for controlled before/after comparison.
 - Added default event-driven visual sync: background visual polling is blocked and TVM's existing map-marker path is invoked after detected inventory changes.
 - Added rate-limited server diagnostics that confirm installation and each event-driven map-marker refresh attempt.
+- Trigger map-marker refresh attempts from TVM's successful revision changes instead of every public-purchase command.
 - Corrected repository ignore rules so the server runtime component is versioned and deployable.
 - Runtime validation remains pending.

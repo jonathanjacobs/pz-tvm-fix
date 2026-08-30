@@ -99,24 +99,32 @@ end
 local function installRegistryHook()
     local registry = TVM and TVM.ServerRegistry or nil
     if type(registry) ~= "table" then return false end
-    if registry.TVMPerformanceOriginalSyncAll then return true end
-    if type(registry.syncAllMachinesFromWorld) ~= "function" then return false end
-    local originalSyncAll = registry.syncAllMachinesFromWorld
-    registry.syncAllMachinesFromWorld = function(...)
-        local changed = originalSyncAll(...)
-        if (tonumber(changed) or 0) > 0 then
-            eventMapRefresh(registry, "inventory_change")
+    if not registry.TVMPerformanceOriginalSyncAll and type(registry.syncAllMachinesFromWorld) == "function" then
+        local originalSyncAll = registry.syncAllMachinesFromWorld
+        registry.syncAllMachinesFromWorld = function(...)
+            local changed = originalSyncAll(...)
+            if (tonumber(changed) or 0) > 0 then
+                eventMapRefresh(registry, "inventory_change")
+            end
+            return changed
         end
-        return changed
+        registry.TVMPerformanceOriginalSyncAll = originalSyncAll
     end
-    registry.TVMPerformanceOriginalSyncAll = originalSyncAll
-    return true
+    if not registry.TVMPerformanceOriginalBumpRevision and type(registry.bumpRevision) == "function" then
+        local originalBumpRevision = registry.bumpRevision
+        registry.bumpRevision = function(machine, ...)
+            local result = originalBumpRevision(machine, ...)
+            eventMapRefresh(registry, "revision_change")
+            return result
+        end
+        registry.TVMPerformanceOriginalBumpRevision = originalBumpRevision
+    end
+    return registry.TVMPerformanceOriginalSyncAll ~= nil and registry.TVMPerformanceOriginalBumpRevision ~= nil
 end
 
 local function installCommandHooks()
     local commands = TVM and TVM.ServerCommands or nil
-    local registry = TVM and TVM.ServerRegistry or nil
-    if type(commands) ~= "table" or type(registry) ~= "table" then return false end
+    if type(commands) ~= "table" then return false end
     local installed = false
 
     if not commands.TVMPerformanceOriginalVisualSlice and type(commands.handleRequestVisualRegistrySlice) == "function" then
@@ -180,17 +188,6 @@ local function installCommandHooks()
             return originalSnapshot(player, args)
         end
         commands.TVMPerformanceOriginalVisualSnapshot = originalSnapshot
-        installed = true
-    end
-
-    if not commands.TVMPerformanceOriginalPublicPurchase and type(commands.handlePublicPurchase) == "function" then
-        local originalPurchase = commands.handlePublicPurchase
-        commands.handlePublicPurchase = function(player, args)
-            local result = originalPurchase(player, args)
-            eventMapRefresh(registry, "public_purchase")
-            return result
-        end
-        commands.TVMPerformanceOriginalPublicPurchase = originalPurchase
         installed = true
     end
 
