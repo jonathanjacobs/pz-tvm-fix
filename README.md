@@ -21,11 +21,16 @@ Enable `TraderVendingMachines` and `pz-tvm-fix` on the server and every client. 
 
 The server controls the following Sandbox options:
 
+- Enable TVM Traffic Control — default enabled; pass automatic visual requests through unchanged when disabled.
+- Enable Traffic Diagnostics — default disabled; writes low-volume aggregate comparison counters to server and client logs.
+- Traffic Diagnostics Interval — default 60 seconds.
 - Visual Registry Refresh Interval — default 15 seconds.
 - Visual Refresh Movement Threshold — default 8 tiles.
 - Visual Snapshot Refresh Interval — default 10 seconds.
 
 The addon affects only TVM requests tagged as automatic visual-runtime work. Machine UI opens, purchases, owner actions, placement, and TVM persistence are not throttled. The server independently rejects over-frequent visual registry-slice requests.
+
+After changing any addon sandbox setting, restart the server and reconnect clients. This is the safe operational procedure until live sandbox updates are validated. Diagnostic counters identify request counts, not network bytes.
 
 ## Repository map
 

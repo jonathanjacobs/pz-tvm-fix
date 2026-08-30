@@ -29,3 +29,5 @@ Do not update for: unverified engine hypotheses; use a spike instead.
 5. A migration touching pre-existing save data, if ever proposed, must be opt-in, backup-first, separately documented, and validated on copied saves.
 6. The initial traffic-control release must affect only TVM automatic visual-runtime requests. Public UI, purchases, owner actions, placement, and registry persistence are out of scope.
 7. The server must reject over-frequent visual registry-slice requests even if a client does not run the companion client guard.
+8. Operators must be able to enable or disable the traffic guard and enable low-volume diagnostics through server sandbox settings; traffic control is enabled and diagnostics disabled by default.
+9. Diagnostics must use aggregate, rate-limited log lines only and must not add persistent or networked telemetry.

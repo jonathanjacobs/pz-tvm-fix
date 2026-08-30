@@ -1,5 +1,31 @@
 VERSION = 1,
 
+option TVMPerformance.TrafficControlEnabled
+{
+    type = boolean,
+    default = true,
+    page = TVMPerformance,
+    translation = TVMPerformance_TrafficControlEnabled,
+}
+
+option TVMPerformance.DiagnosticsEnabled
+{
+    type = boolean,
+    default = false,
+    page = TVMPerformance,
+    translation = TVMPerformance_DiagnosticsEnabled,
+}
+
+option TVMPerformance.DiagnosticsIntervalSeconds
+{
+    type = integer,
+    min = 15,
+    max = 300,
+    default = 60,
+    page = TVMPerformance,
+    translation = TVMPerformance_DiagnosticsIntervalSeconds,
+}
+
 option TVMPerformance.VisualSliceIntervalSeconds
 {
     type = integer,

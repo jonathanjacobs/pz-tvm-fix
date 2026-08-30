@@ -9,4 +9,5 @@
 
 - Added configurable client and server guards for TVM automatic visual registry and snapshot polling.
 - Added no persistence writes and no TVM gameplay changes.
+- Added an opt-out traffic-control switch and opt-in, aggregate diagnostics for controlled before/after comparison.
 - Runtime validation remains pending.
