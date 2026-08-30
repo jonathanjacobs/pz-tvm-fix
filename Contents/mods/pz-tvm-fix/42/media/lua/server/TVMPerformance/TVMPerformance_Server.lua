@@ -32,6 +32,21 @@ end
 
 local diagnostics = M.Server.diagnostics or { active = false, mode = nil, lastReport = 0 }
 M.Server.diagnostics = diagnostics
+local markerLogBySource = M.Server.markerLogBySource or {}
+M.Server.markerLogBySource = markerLogBySource
+
+local function logMarkerRefreshAttempt(source, now)
+    if not M.diagnosticsEnabled() or now <= 0 then return end
+    local sourceName = tostring(source or "inventory_change")
+    local previous = markerLogBySource[sourceName] or 0
+    if (now - previous) < 1000 then return end
+    markerLogBySource[sourceName] = now
+    print(string.format(
+        "[TVMPerformance][server] marker_refresh_attempt mode=%s source=%s",
+        M.visualSyncMode(),
+        sourceName
+    ))
+end
 
 local function resetDiagnostics(now, mode)
     diagnostics.active = true
@@ -74,8 +89,11 @@ end
 
 local function eventMapRefresh(registry, source)
     if M.visualSyncMode() ~= "event" or not (registry and registry.pushMapMarkers) then return end
-    registry.pushMapMarkers(nil, "tvm_performance_" .. tostring(source or "inventory_change"), false)
-    recordDiagnostic("markerRefreshes", 1, nowMs())
+    local now = nowMs()
+    local sourceName = tostring(source or "inventory_change")
+    registry.pushMapMarkers(nil, "tvm_performance_" .. sourceName, false)
+    logMarkerRefreshAttempt(sourceName, now)
+    recordDiagnostic("markerRefreshes", 1, now)
 end
 
 local function installRegistryHook()
@@ -182,7 +200,15 @@ end
 local function install()
     local registryInstalled = installRegistryHook()
     local commandsInstalled = installCommandHooks()
-    return registryInstalled and commandsInstalled
+    local installed = registryInstalled and commandsInstalled
+    if installed and M.diagnosticsEnabled() and not M.Server.installLogged then
+        M.Server.installLogged = true
+        print(string.format(
+            "[TVMPerformance][server] installed mode=%s registry_hook=true command_hooks=true",
+            M.visualSyncMode()
+        ))
+    end
+    return installed
 end
 
 M.Server.install = install
