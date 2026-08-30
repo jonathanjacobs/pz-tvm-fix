@@ -5,6 +5,7 @@ An optional Project Zomboid Build 42 companion for Trader Vending Machines (TVM)
 Status: **Initial implementation — runtime validation pending.**
 Version: **v0.1.0-dev**
 Target: **TVM for Project Zomboid Build 42.13+**
+License: **Apache-2.0**
 
 ## Goals
 
@@ -39,3 +40,7 @@ See [documentation ownership](docs/DOCUMENTATION_OWNERSHIP.md) for the complete 
 ## Dependency and rights boundary
 
 TVM is a third-party dependency. This repository contains neither TVM code nor TVM assets and does not imply affiliation with its authors, The Indie Stone, or Steam.
+
+## License
+
+The original source in this repository is licensed under the [Apache License 2.0](LICENSE). Third-party names and materials remain subject to their respective rights.
