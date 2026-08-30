@@ -1,9 +1,9 @@
 # Project Zomboid / local runtime output
-Zomboid/
-Logs/
-Saves/
-Server/
-Workshop/
+/Zomboid/
+/Logs/
+/Saves/
+/Server/
+/Workshop/
 *.log
 
 # Local and editor files

@@ -8,6 +8,14 @@ option TVMPerformance.TrafficControlEnabled
     translation = TVMPerformance_TrafficControlEnabled,
 }
 
+option TVMPerformance.EventDrivenVisualSync
+{
+    type = boolean,
+    default = true,
+    page = TVMPerformance,
+    translation = TVMPerformance_EventDrivenVisualSync,
+}
+
 option TVMPerformance.DiagnosticsEnabled
 {
     type = boolean,

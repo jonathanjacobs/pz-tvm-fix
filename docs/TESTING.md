@@ -20,11 +20,12 @@ Do not update for: observed outcomes; use validation history.
 | Scenario | Pass criterion |
 | --- | --- |
 | Baseline traffic | Reproducible measurement with addon absent. |
-| Addon traffic | Same scenario; evidence supports any stated reduction. |
+| Event-driven traffic | Same scenario with event-driven mode; automatic visual registry/snapshot calls are blocked while no inventory changes occur. |
 | Clean save/load | Server and clients reconnect with addon installed. |
 | Addon removal | A copied save created with addon enabled loads and permits client connection after the addon is removed. |
 | TVM absence/incompatibility | Addon fails safely without corrupting saves or blocking connections. |
-| Diagnostic comparison | With diagnostics enabled, one aggregate server line and one aggregate client line identify the guard state and forwarded/throttled request counts. |
+| Diagnostic comparison | With diagnostics enabled, one aggregate server line and one aggregate client line identify the selected mode and forwarded, blocked, or throttled request counts. |
+| Event-driven map update | A purchase and a restock each cause a fresh map-marker update without re-enabling automatic visual polling. |
 
 For traffic capture, record command direction/count and bytes separately for visual-registry slices, snapshot batches/singles, snapshot pushes, map-marker pushes, and object-mod-data transmissions. Record machine count, player count, player movement, open UIs, and container mutations.
 
@@ -34,9 +35,10 @@ Record real results in `VALIDATION_HISTORY.md`.
 
 ## Initial traffic-control procedure
 
-1. With the same TVM version and copied test world, record a five-minute baseline with a stationary player, then repeat while walking through at least one TVM-dense area and opening a machine UI.
-2. Install `pz-tvm-fix` on both server and clients, retain TVM, set `TrafficControlEnabled=false` and `DiagnosticsEnabled=true`, then restart the server and reconnect clients. Repeat the scenarios and retain the aggregate log lines as an addon-present comparison baseline.
-3. Set `TrafficControlEnabled=true` with diagnostics still enabled, restart the server and reconnect clients, and repeat the same scenarios. Compare the aggregate counts over equal wall-clock intervals; do not infer packet bytes from counters alone.
-4. Confirm visual overlays eventually refresh after the interval and after moving at least eight tiles; confirm an opened public UI and a purchase remain immediate.
-5. Repeat with one client intentionally lacking the addon. Confirm the server gate still limits visual registry slices and normal TVM interactions work.
-6. Remove only `pz-tvm-fix` from the copied world and confirm normal TVM server/client connection and operation. Do not record a pass until this occurs.
+1. With the same TVM version and copied test world, record five minutes of baseline traffic with the addon absent. Repeat a fixed route through a TVM-dense area, then open one machine and make one purchase.
+2. Install `pz-tvm-fix` on both server and clients, retain TVM, set `TrafficControlEnabled=false` and `DiagnosticsEnabled=true`, then restart the server and reconnect clients. Repeat the fixed route and retain equal-duration aggregate logs as an addon-present pass-through control.
+3. Set `TrafficControlEnabled=true`, `EventDrivenVisualSync=true`, and diagnostics enabled. Restart/reconnect, repeat the fixed route without opening or changing machines, and confirm automatic visual requests are blocked on both client and server.
+4. In the same event-driven session, open one machine, make one purchase, then restock one machine. Confirm the opened UI is immediate and each real stock change causes a marker-refresh attempt without background visual polling.
+5. Capture packet counts and byte totals for the same wall-clock windows at the server network interface or host monitor. Keep client count, machine count, route, open UIs, and mutations identical. Compare bytes and packets by direction; diagnostic counters only explain which TVM lane produced them.
+6. Repeat with one client intentionally lacking the addon. Confirm the server blocks that client's automatic visual registry and snapshot requests while normal TVM interactions work.
+7. Remove only `pz-tvm-fix` from the copied world and confirm normal TVM server/client connection and operation. Do not record a pass until this occurs.

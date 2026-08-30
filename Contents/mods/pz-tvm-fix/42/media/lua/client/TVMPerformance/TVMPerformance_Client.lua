@@ -1,4 +1,4 @@
--- Limits only TVM's automatic visual-runtime requests; UI and gameplay calls pass through.
+-- Limits only TVM automatic visual-runtime requests; UI and gameplay calls pass through.
 require "TVMPerformance/TVMPerformance_Config"
 
 if isServer() then return end
@@ -36,40 +36,12 @@ local function install()
     local state = {
         lastSlice = nil,
         lastVisualSnapshotByMachine = {},
-        diagnostics = {
-            active = false,
-            lastReport = 0,
-            sliceForwarded = 0,
-            sliceSuppressed = 0,
-            snapshotsForwarded = 0,
-            snapshotsSuppressed = 0,
-        },
+        diagnostics = { active = false, mode = nil, lastReport = 0 },
     }
 
-    local function recordDiagnostic(name, amount, now)
-        local diagnostics = state.diagnostics
-        if not M.diagnosticsEnabled() then
-            diagnostics.active = false
-            return
-        end
-        if not diagnostics.active then
-            diagnostics.active = true
-            diagnostics.lastReport = now
-            diagnostics.sliceForwarded = 0
-            diagnostics.sliceSuppressed = 0
-            diagnostics.snapshotsForwarded = 0
-            diagnostics.snapshotsSuppressed = 0
-        end
-        diagnostics[name] = (diagnostics[name] or 0) + amount
-        if (now - diagnostics.lastReport) < M.diagnosticsIntervalMs() then return end
-        print(string.format(
-            "[TVMPerformance][client] guard=%s registry forwarded=%d suppressed=%d snapshots forwarded=%d suppressed=%d",
-            tostring(M.trafficControlEnabled()),
-            diagnostics.sliceForwarded,
-            diagnostics.sliceSuppressed,
-            diagnostics.snapshotsForwarded,
-            diagnostics.snapshotsSuppressed
-        ))
+    local function resetDiagnostics(diagnostics, now, mode)
+        diagnostics.active = true
+        diagnostics.mode = mode
         diagnostics.lastReport = now
         diagnostics.sliceForwarded = 0
         diagnostics.sliceSuppressed = 0
@@ -77,15 +49,42 @@ local function install()
         diagnostics.snapshotsSuppressed = 0
     end
 
-    client.requestVisualRegistrySlice = function(x, y, z, radius, maxRows, hints)
-        if not isVisualRuntime(hints) then
-            return originalSlice(x, y, z, radius, maxRows, hints)
+    local function recordDiagnostic(name, amount, now)
+        local diagnostics = state.diagnostics
+        if not M.diagnosticsEnabled() then
+            diagnostics.active = false
+            diagnostics.mode = nil
+            return
         end
+        local mode = M.visualSyncMode()
+        if not diagnostics.active or diagnostics.mode ~= mode then
+            resetDiagnostics(diagnostics, now, mode)
+        end
+        diagnostics[name] = (diagnostics[name] or 0) + amount
+        if (now - diagnostics.lastReport) < M.diagnosticsIntervalMs() then return end
+        print(string.format(
+            "[TVMPerformance][client] mode=%s registry forwarded=%d suppressed=%d snapshots forwarded=%d suppressed=%d",
+            diagnostics.mode,
+            diagnostics.sliceForwarded,
+            diagnostics.sliceSuppressed,
+            diagnostics.snapshotsForwarded,
+            diagnostics.snapshotsSuppressed
+        ))
+        resetDiagnostics(diagnostics, now, mode)
+    end
+
+    client.requestVisualRegistrySlice = function(x, y, z, radius, maxRows, hints)
+        if not isVisualRuntime(hints) then return originalSlice(x, y, z, radius, maxRows, hints) end
         local now = nowMs()
         if now <= 0 then return originalSlice(x, y, z, radius, maxRows, hints) end
-        if not M.trafficControlEnabled() then
+        local mode = M.visualSyncMode()
+        if mode == "pass" then
             recordDiagnostic("sliceForwarded", 1, now)
             return originalSlice(x, y, z, radius, maxRows, hints)
+        end
+        if mode == "event" then
+            recordDiagnostic("sliceSuppressed", 1, now)
+            return false
         end
         local px, py, pz = tonumber(x), tonumber(y), tonumber(z) or 0
         if not (px and py) then
@@ -122,9 +121,14 @@ local function install()
         if not isVisualRuntime(hints) then return originalBatch(machineIds, hints) end
         local now = nowMs()
         if now <= 0 then return originalBatch(machineIds, hints) end
-        if not M.trafficControlEnabled() then
+        local mode = M.visualSyncMode()
+        if mode == "pass" then
             recordDiagnostic("snapshotsForwarded", #(machineIds or {}), now)
             return originalBatch(machineIds, hints)
+        end
+        if mode == "event" then
+            recordDiagnostic("snapshotsSuppressed", #(machineIds or {}), now)
+            return false
         end
         local eligible = {}
         for i = 1, #(machineIds or {}) do
@@ -146,16 +150,22 @@ local function install()
             return originalSnapshot(machineId, uiType, hints)
         end
         local now = nowMs()
-        if not M.trafficControlEnabled() then
-            if now > 0 then recordDiagnostic("snapshotsForwarded", 1, now) end
+        if now <= 0 then return originalSnapshot(machineId, uiType, hints) end
+        local mode = M.visualSyncMode()
+        if mode == "pass" then
+            recordDiagnostic("snapshotsForwarded", 1, now)
             return originalSnapshot(machineId, uiType, hints)
         end
-        if now > 0 and not snapshotDue(machineId, now) then
+        if mode == "event" then
+            recordDiagnostic("snapshotsSuppressed", 1, now)
+            return false
+        end
+        if not snapshotDue(machineId, now) then
             recordDiagnostic("snapshotsSuppressed", 1, now)
             return false
         end
         local sent = originalSnapshot(machineId, uiType, hints)
-        if sent == true and now > 0 then
+        if sent == true then
             markSnapshot(machineId, now)
             recordDiagnostic("snapshotsForwarded", 1, now)
         end

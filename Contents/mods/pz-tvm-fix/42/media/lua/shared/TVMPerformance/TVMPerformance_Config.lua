@@ -28,6 +28,16 @@ function M.trafficControlEnabled()
     return booleanOption("TrafficControlEnabled", true)
 end
 
+function M.eventDrivenVisualSyncEnabled()
+    return booleanOption("EventDrivenVisualSync", true)
+end
+
+function M.visualSyncMode()
+    if not M.trafficControlEnabled() then return "pass" end
+    if M.eventDrivenVisualSyncEnabled() then return "event" end
+    return "throttled"
+end
+
 function M.diagnosticsEnabled()
     return booleanOption("DiagnosticsEnabled", false)
 end

@@ -27,7 +27,8 @@ Do not update for: unverified engine hypotheses; use a spike instead.
 3. Removing the addon after normal use must not require its data to load, subject to dedicated save/load and client-connection validation.
 4. Network changes must preserve server authority and be supported by before/after evidence from a defined multiplayer scenario.
 5. A migration touching pre-existing save data, if ever proposed, must be opt-in, backup-first, separately documented, and validated on copied saves.
-6. The initial traffic-control release must affect only TVM automatic visual-runtime requests. Public UI, purchases, owner actions, placement, and registry persistence are out of scope.
-7. The server must reject over-frequent visual registry-slice requests even if a client does not run the companion client guard.
+6. The default traffic-control mode must affect only TVM automatic visual-runtime requests. Public UI, purchases, owner actions, placement, and registry persistence are out of scope.
+7. In event-driven mode, the server must reject automatic visual registry and snapshot requests even if a client does not run the companion client guard.
 8. Operators must be able to enable or disable the traffic guard and enable low-volume diagnostics through server sandbox settings; traffic control is enabled and diagnostics disabled by default.
 9. Diagnostics must use aggregate, rate-limited log lines only and must not add persistent or networked telemetry.
+10. Event-driven map updates must reuse TVM's existing authoritative, deduplicated map-marker transport and occur only after an inventory change is detected or an existing TVM hydration path is invoked.
