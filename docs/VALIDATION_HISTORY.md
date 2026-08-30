@@ -1,10 +1,11 @@
 # Validation history
 
-Status: **No validation has been recorded.**
+Status: **Alpha smoke evidence recorded; performance and removal qualification pending**
 
-Audience: release reviewers.
-Use this when: recording a test that actually occurred.
-Update this when: new evidence is collected.
-Do not update for: planned tests; use `TESTING.md` or `ROADMAP.md`.
+## 2026-08-30 — event-driven smoke test
 
-Each entry must identify the date, package revision, game and TVM versions, topology, scenario, observed outcome, evidence location, and follow-up decision.
+- Package: `d70d78c`; exact Project Zomboid and TVM versions were not recorded.
+- Topology: dedicated server and one administrative test client.
+- Observed: five client intervals suppressed 298 automatic registry requests and 25 visual snapshots, with zero forwarded. The server installed both hooks, recorded zero visual requests at its guard, and recorded 11 `revision_change` marker-refresh attempts.
+- Evidence: operator-supplied server and client console archives; not retained in this public repository.
+- Decision: continue controlled multiplayer testing. No packet/byte reduction, broad compatibility, or addon-removal claim is established.

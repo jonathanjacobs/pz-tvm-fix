@@ -1,17 +1,11 @@
 # Changelog
 
-## [0.1.0-dev] - 2026-08-29
-
-- Initialized Project Zomboid Build 42 addon scaffold for TVM network and persistence investigation.
-- Adds no runtime behavior and makes no compatibility or remediation claim.
-
 ## [0.1.0-dev] - 2026-08-30
 
-- Added configurable client and server guards for TVM automatic visual registry and snapshot polling.
-- Added no persistence writes and no TVM gameplay changes.
-- Added an opt-out traffic-control switch and opt-in, aggregate diagnostics for controlled before/after comparison.
-- Added default event-driven visual sync: background visual polling is blocked and TVM's existing map-marker path is invoked after detected inventory changes.
-- Added rate-limited server diagnostics that confirm installation and each event-driven map-marker refresh attempt.
-- Trigger map-marker refresh attempts from TVM's successful revision changes instead of every public-purchase command.
-- Corrected repository ignore rules so the server runtime component is versioned and deployable.
-- Runtime validation remains pending.
+- Initialized the independent Build 42 TVM traffic-control addon.
+- Added client and server guards for automatic visual registry and snapshot polling, with event-driven map-marker refreshes after successful TVM state changes.
+- Added sandbox controls and opt-in, low-volume diagnostics for controlled comparison.
+- Added alpha Workshop staging assets and concise publication metadata.
+- Consolidated repository documentation around the template’s canonical ownership model.
+
+Runtime status: dedicated-server smoke evidence exists; measured byte reduction, broad compatibility, and addon-removal safety remain unverified.

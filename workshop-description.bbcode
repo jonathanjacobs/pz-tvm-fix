@@ -1,0 +1,47 @@
+[h1]TVM Network Tuner — ALPHA[/h1]
+
+An optional Project Zomboid Build 42 companion for Trader Vending Machines that reduces automatic visual synchronization traffic.
+
+[b]Version:[/b] 0.1.0-dev
+[b]Target:[/b] Project Zomboid Build 42
+[b]Workshop ID:[/b] Not yet assigned
+[b]Mod ID:[/b] pz-tvm-fix
+
+[h2]What it does[/h2]
+This addon blocks only TVM's automatic visual registry and snapshot polling by default. Normal machine UI, purchases, owner actions, placement, and TVM persistence remain under TVM's existing authority.
+
+[h2]Features[/h2]
+- Event-driven visual synchronization with a server-side guard.
+- TVM's existing deduplicated map-marker refresh after successful state changes.
+- Sandbox-controlled pass-through mode and low-volume diagnostics.
+
+[h2]Current status[/h2]
+This is an ALPHA test build for controlled dedicated-server use. Smoke logs confirm automatic visual-request suppression and state-change hooks. They do not establish a measured bandwidth reduction, broad compatibility, or safe addon removal. Back up a live world before changing its mod list; do not use this addon to remove TVM or repair existing TVM save data.
+
+[h2]Configuration[/h2]
+[code]
+TVMPerformance.TrafficControlEnabled=true
+TVMPerformance.EventDrivenVisualSync=true
+TVMPerformance.DiagnosticsEnabled=false
+[/code]
+
+Traffic control defaults to enabled, event-driven mode defaults to enabled, and diagnostics default to disabled. Restart the server and reconnect clients after changing addon sandbox settings.
+
+[h2]Server setup[/h2]
+[code]
+WorkshopItems=[WORKSHOP_ID]
+Mods=pz-tvm-fix
+[/code]
+
+Install the same addon build with TVM on the server and participating clients.
+
+[h2]Compatibility[/h2]
+Requires Trader Vending Machines on Project Zomboid Build 42. Dedicated-server smoke testing is complete, but exact TVM and Project Zomboid compatibility versions remain to be recorded. If an issue occurs, set traffic control to false, restart, and reconnect before considering addon removal.
+
+[h2]Source code, documentation, and issues[/h2]
+[url=https://github.com/jonathanjacobs/pz-tvm-fix]GitHub — TVM Network Tuner repository[/url]
+
+See the repository for installation, test procedures, observed evidence, limitations, and issue reporting.
+
+[h2]Unofficial community mod[/h2]
+TVM Network Tuner is an unofficial independent community mod and is not developed by, affiliated with, sponsored by, endorsed by, or otherwise official to The Indie Stone or the TVM authors. This repository does not redistribute TVM or Project Zomboid code or assets.

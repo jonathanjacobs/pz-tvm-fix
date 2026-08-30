@@ -1,52 +1,37 @@
 # TVM Network Tuner
 
-An optional Project Zomboid Build 42 companion for Trader Vending Machines (TVM) that reduces automatic visual synchronization traffic.
+An **alpha** Project Zomboid Build 42 companion for Trader Vending Machines (TVM). It reduces TVM's automatic visual registry and snapshot polling without changing TVM gameplay or copying TVM content.
 
-Status: **Initial implementation — runtime validation pending.**
+Status: **Alpha — controlled dedicated-server validation in progress**
+
 Version: **v0.1.0-dev**
-Target: **TVM for Project Zomboid Build 42.13+**
+
+Mod ID: **`pz-tvm-fix`**
+
 License: **Apache-2.0**
 
-## Goals
+## What it does
 
-- Reduce unnecessary TVM visual registry and snapshot polling without changing TVM gameplay.
-- Ensure this addon adds no permanent world-save dependency that prevents its own removal.
-- Establish evidence before making compatibility, performance, migration, or uninstall-safety claims.
+- Blocks automatic TVM visual-runtime requests by default.
+- Keeps the normal machine UI, purchases, owner actions, placement, and TVM persistence outside the guard.
+- Refreshes TVM's existing deduplicated map-marker path after a successful TVM state revision or detected direct container change.
+- Offers a server-controlled pass-through switch and low-volume diagnostics.
 
-The addon does not yet claim a measured traffic reduction. It does not repair existing TVM persistence; that investigation remains separate.
+## Alpha boundary
 
-## Install and tune
+Observed logs confirm request suppression and successful state-change hooks. They do **not** establish a measured byte reduction, broad live compatibility, or safe addon removal. Do not use this addon to remove TVM or repair existing TVM save data.
 
-Enable `TraderVendingMachines` and `pz-tvm-fix` on the server and every client. The dependency declaration loads TVM first.
+## Install and test
 
-The server controls the following Sandbox options:
-
-- Enable TVM Traffic Control — default enabled; pass automatic visual requests through unchanged when disabled.
-- Use Event-Driven Visual Sync — default enabled; blocks automatic visual polling and refreshes map markers after detected inventory changes. Disable to use the legacy throttled mode.
-- Enable Traffic Diagnostics — default disabled; writes low-volume aggregate comparison counters to server and client logs.
-- Traffic Diagnostics Interval — default 60 seconds.
-- Visual Registry Refresh Interval — default 15 seconds.
-- Visual Refresh Movement Threshold — default 8 tiles.
-- Visual Snapshot Refresh Interval — default 10 seconds.
-
-The addon affects only TVM requests tagged as automatic visual-runtime work. In the default event-driven mode, automatic visual registry and snapshot polling is blocked; TVM's existing authoritative map-marker path refreshes after detected inventory changes. Machine UI opens, purchases, owner actions, placement, and TVM persistence are not blocked.
-
-After changing any addon sandbox setting, restart the server and reconnect clients. This is the safe operational procedure until live sandbox updates are validated. Diagnostic counters identify request counts, not network bytes.
+Install the same addon build with TVM on the dedicated server and each client, then restart the server and reconnect clients. Event-driven traffic control is enabled by default; diagnostics are disabled by default. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the alpha rollout/rollback procedure and [`docs/TESTING.md`](docs/TESTING.md) for the repeatable test matrix.
 
 ## Repository map
 
 - `Contents/mods/pz-tvm-fix/` — deployable addon package.
-- `docs/REQUIREMENTS.md` — normative scope and behavior.
-- `docs/ARCHITECTURE.md` — integration and persistence design.
-- `docs/spikes/` — bounded investigation records.
-- `docs/TESTING.md` and `docs/VALIDATION_HISTORY.md` — repeatable procedures and actual evidence.
+- [`docs/DOCUMENTATION_OWNERSHIP.md`](docs/DOCUMENTATION_OWNERSHIP.md) — source-of-truth map.
+- [`docs/`](docs/) — behavior, design, validation, deployment, and release controls.
+- [`docs/spikes/`](docs/spikes/) — bounded source and engine investigations.
 
-See [documentation ownership](docs/DOCUMENTATION_OWNERSHIP.md) for the complete map.
+## License and rights
 
-## Dependency and rights boundary
-
-TVM is a third-party dependency. This repository contains neither TVM code nor TVM assets and does not imply affiliation with its authors, The Indie Stone, or Steam.
-
-## License
-
-The original source in this repository is licensed under the [Apache License 2.0](LICENSE). Third-party names and materials remain subject to their respective rights.
+This is an unofficial, independent community addon. TVM, Project Zomboid, Steam, and their assets remain the property of their respective owners; this repository redistributes none of them.

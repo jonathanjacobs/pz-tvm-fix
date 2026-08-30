@@ -1,5 +1,5 @@
 # Spikes
 
-Use a spike for a bounded feasibility question or uncertain engine behavior. Name it `SPIKE-###-short-topic.md` and state the question, environment, procedure, evidence, outcome, and next decision.
+Use a spike for a bounded feasibility question or uncertain engine behavior. Name it `SPIKE-###-short-topic.md` and state the question, evidence, outcome, and next decision.
 
-Initial required candidates: TVM traffic baseline, TVM persistence characterization, and integration/compatibility surface.
+Current evidence: source architecture audit. Future candidates: packet/byte baseline and copied-save persistence/removal characterization.

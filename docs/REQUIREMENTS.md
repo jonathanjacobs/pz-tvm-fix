@@ -1,34 +1,24 @@
 # Requirements
 
-Status: **Initial traffic-control implementation**
-
-Audience: implementers and reviewers.
-Use this when: defining or verifying required behavior.
-Update this when: a requirement changes or is evidence-backed.
-Do not update for: unverified engine hypotheses; use a spike instead.
+Status: **Alpha traffic-control implementation**
 
 ## Project identity
 
-- Mod name: `TVM Network and Persistence Fix`
 - Mod ID: `pz-tvm-fix` (provisional)
-- Target Build: `Project Zomboid Build 42; exact version TBD`
-- Primary supported mode: `Dedicated multiplayer`
-- Dependency: `Trader Vending Machine (TVM); exact compatible version TBD`
+- Target: Project Zomboid Build 42 dedicated multiplayer
+- Dependency: Trader Vending Machine (TVM); exact compatible release remains to be recorded
 
 ## Scope
 
-- In scope: an optional, independently packaged TVM addon; traffic characterization; reductions supported by verified integration points; save/uninstall safety for addon-owned behavior.
-- Explicitly out of scope: bundling, copying, or modifying TVM; untested repair of existing TVM save data; a claim that removing TVM itself is safe.
+In scope: an independent, optional addon that reduces TVM automatic visual-runtime traffic and adds no new durable save dependency.
+
+Out of scope: redistributing or modifying TVM; repairing existing TVM saves; claiming that TVM itself is removable.
 
 ## Normative behavior
 
-1. The addon must fail safely when its required TVM version or integration surface is absent or incompatible.
-2. The addon must not create a persistent world or player-save dependency required for future server or client connection.
-3. Removing the addon after normal use must not require its data to load, subject to dedicated save/load and client-connection validation.
-4. Network changes must preserve server authority and be supported by before/after evidence from a defined multiplayer scenario.
-5. A migration touching pre-existing save data, if ever proposed, must be opt-in, backup-first, separately documented, and validated on copied saves.
-6. The default traffic-control mode must affect only TVM automatic visual-runtime requests. Public UI, purchases, owner actions, placement, and registry persistence are out of scope.
-7. In event-driven mode, the server must reject automatic visual registry and snapshot requests even if a client does not run the companion client guard.
-8. Operators must be able to enable or disable the traffic guard and enable low-volume diagnostics through server sandbox settings; traffic control is enabled and diagnostics disabled by default.
-9. Diagnostics must use aggregate, rate-limited log lines only and must not add persistent or networked telemetry.
-10. Event-driven map updates must reuse TVM's existing authoritative, deduplicated map-marker transport and occur only after an inventory change is detected or an existing TVM hydration path is invoked.
+1. The addon affects only TVM requests tagged as automatic visual-runtime work. Public UI, purchases, owner actions, placement, and TVM persistence remain outside the guard.
+2. Shared state remains server-authoritative. In event mode, the server rejects automatic visual registry and snapshot requests from clients that lack or bypass the client guard.
+3. A successful TVM state revision or detected direct container change may refresh TVM's existing deduplicated map-marker path. A rejected purchase must not trigger the addon refresh.
+4. Traffic control defaults on; diagnostics default off. Operators can switch to pass-through mode and enable aggregate, rate-limited diagnostics through sandbox settings.
+5. The addon must add no persistent telemetry or required world/player-save state, and must fail safely if its TVM integration surface is absent or incompatible.
+6. Performance, compatibility, and addon-removal claims require the evidence listed in [`TESTING.md`](TESTING.md).

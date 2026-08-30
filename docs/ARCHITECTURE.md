@@ -1,29 +1,20 @@
 # Architecture
 
-Status: **Initial traffic-control design — runtime validation pending.**
+Status: **Alpha implementation; bounded runtime evidence collected**
 
-Audience: implementers and reviewers.
-Use this when: choosing module boundaries, authority, persistence, or diagnostics.
-Update this when: a design decision is supported by evidence.
-Do not update for: temporary exploratory notes; use a spike instead.
+## Runtime layout
 
-## Constraints
+```text
+Contents/mods/pz-tvm-fix/
+  42/media/lua/client/TVMPerformance/TVMPerformance_Client.lua
+  42/media/lua/server/TVMPerformance/TVMPerformance_Server.lua
+  42/media/lua/shared/TVMPerformance/TVMPerformance_Config.lua
+```
 
-- Treat TVM as an external runtime dependency; verify documented/public extension points before relying on them.
-- Prefer event filtering, batching, caching, or observation only where behavior can be proven equivalent and server authority remains intact.
-- Add no persistent state by default. Any exception needs an ADR plus removal and save/load evidence.
-- Diagnostics must be opt-in or rate-limited and must not create high-volume network or log traffic.
+## Design
 
-## Source-audit observations
+The shared configuration reads sandbox settings at request time. The client guard intercepts only TVM calls marked `source = "visuals_runtime"`: registry slices, visual snapshot batches, and visual fallback snapshots. Event mode blocks them; throttled mode remains an operator fallback. Public UI traffic is not wrapped.
 
-`SPIKE-001-tvm-source-architecture-audit.md` records the current TVM source findings. The leading candidates for traffic work are the client visual registry/snapshot hydration lane and the server-wide reconciliation triggered by container updates. These are hypotheses awaiting a controlled baseline, not performance claims.
+The server applies the same policy to TVM visual handlers, protecting against unmodified or misconfigured clients. It wraps TVM's `bumpRevision` to request a deduplicated map-marker refresh after completed TVM mutations, and wraps `syncAllMachinesFromWorld()` as a fallback for detected direct container changes. It owns no durable state.
 
-## Initial traffic-control design
-
-`TVMPerformance_Client.lua` wraps only TVM client calls tagged `source = "visuals_runtime"`: registry slices, visual snapshot batches, and visual fallback snapshots. The default event-driven mode blocks those background calls. The fallback throttled mode permits the first request, then permits a refresh after the configured interval or after the player crosses the configured tile threshold. Public UI requests are not wrapped.
-
-`TVMPerformance_Server.lua` enforces the selected policy for visual registry and snapshot handlers. In event-driven mode, it wraps TVM's authoritative `bumpRevision` result: a completed TVM state mutation, including a successful public purchase or owner restock, causes a call to TVM's existing deduplicated `pushMapMarkers` transport. It separately wraps TVM's world reconciliation result so a detected direct container change also causes a refresh. Failed purchase commands return before TVM calls `bumpRevision` and therefore do not trigger the addon refresh. This protects the server from unmodified or misconfigured clients while preserving TVM's authority and protocol.
-
-The sandbox options are `TVMPerformance.TrafficControlEnabled` (default true), `TVMPerformance.EventDrivenVisualSync` (default true), `TVMPerformance.DiagnosticsEnabled` (default false), `TVMPerformance.DiagnosticsIntervalSeconds` (default 60), `TVMPerformance.VisualSliceIntervalSeconds` (default 15), `TVMPerformance.VisualMovementThresholdTiles` (default 8), and `TVMPerformance.VisualSnapshotIntervalSeconds` (default 10). The guard reads these values at request time. The test evidence shows changes can take effect during a running session, but restart/reconnect remains the safe operating procedure until live propagation is formally validated.
-
-When diagnostics are enabled, each side writes one aggregate line only after the configured interval and only when visual-runtime activity occurs. The client line counts automatic slice and snapshot calls forwarded or suppressed by its guard. The server line counts visual registry/snapshot calls passed, forwarded, blocked, or throttled plus event-marker refresh attempts. The server also writes an install-status line and an immediate, per-source marker-refresh-attempt line, limited to one per source per second, so a stock-change test can verify the event hook without waiting for an aggregate interval. These counters and lines describe requests or refresh attempts, not packet-byte measurements, and are stored only in ordinary logs.
+Diagnostics are opt-in and log-only: interval aggregates for visual requests plus an install line and rate-limited marker-refresh attempts. They count guard decisions and refresh attempts, not packet bytes. See [`TESTING.md`](TESTING.md) for measurement requirements and [`spikes/SPIKE-001-tvm-source-architecture-audit.md`](spikes/SPIKE-001-tvm-source-architecture-audit.md) for the source boundary.
