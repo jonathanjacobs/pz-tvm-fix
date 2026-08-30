@@ -1,0 +1,9 @@
+Sandbox_EN = {
+    Sandbox_TVMPerformance = "TVM Network Tuner",
+    Sandbox_TVMPerformance_VisualSliceIntervalSeconds = "Visual Registry Refresh Interval",
+    Sandbox_TVMPerformance_VisualSliceIntervalSeconds_tooltip = "Minimum seconds between automatic nearby TVM registry requests for each player. The first request and significant movement still refresh immediately.",
+    Sandbox_TVMPerformance_VisualMovementThresholdTiles = "Visual Refresh Movement Threshold",
+    Sandbox_TVMPerformance_VisualMovementThresholdTiles_tooltip = "Tiles a player must move before an automatic visual registry refresh can bypass its interval.",
+    Sandbox_TVMPerformance_VisualSnapshotIntervalSeconds = "Visual Snapshot Refresh Interval",
+    Sandbox_TVMPerformance_VisualSnapshotIntervalSeconds_tooltip = "Minimum seconds between automatic visual snapshot requests for the same vending machine. Opened machine UIs are unaffected.",
+}

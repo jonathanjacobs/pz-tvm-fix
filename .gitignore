@@ -1,0 +1,26 @@
+# Project Zomboid / local runtime output
+Zomboid/
+Logs/
+Saves/
+Server/
+Workshop/
+*.log
+
+# Local and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.code-workspace
+
+# Archives and generated release output
+dist/
+exports/
+*.zip
+
+# Never commit private or game-derived material
+.env
+.env.*
+!*.env.example
+decompiled/
+extracted-game-assets/

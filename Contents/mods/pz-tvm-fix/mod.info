@@ -1,0 +1,6 @@
+name=TVM Network Tuner
+id=pz-tvm-fix
+description=Optional traffic controls for Trader Vending Machines visual synchronization.
+require=TraderVendingMachines
+versionMin=42.13
+modversion=0.1.0-dev

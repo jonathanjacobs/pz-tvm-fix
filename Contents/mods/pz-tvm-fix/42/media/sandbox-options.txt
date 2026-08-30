@@ -1,0 +1,31 @@
+VERSION = 1,
+
+option TVMPerformance.VisualSliceIntervalSeconds
+{
+    type = integer,
+    min = 3,
+    max = 300,
+    default = 15,
+    page = TVMPerformance,
+    translation = TVMPerformance_VisualSliceIntervalSeconds,
+}
+
+option TVMPerformance.VisualMovementThresholdTiles
+{
+    type = integer,
+    min = 1,
+    max = 60,
+    default = 8,
+    page = TVMPerformance,
+    translation = TVMPerformance_VisualMovementThresholdTiles,
+}
+
+option TVMPerformance.VisualSnapshotIntervalSeconds
+{
+    type = integer,
+    min = 1,
+    max = 300,
+    default = 10,
+    page = TVMPerformance,
+    translation = TVMPerformance_VisualSnapshotIntervalSeconds,
+}
