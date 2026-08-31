@@ -1,5 +1,5 @@
 version=1
-workshopid=0
+workshopid=3793134223
 title=[ALPHA] TVM Network Tuner
 description=ALPHA TEST BUILD. Experimental Build 42 companion for Trader Vending Machines that controls automatic visual synchronization. Requires TraderVendingMachines. Intended for controlled multiplayer testing; compatibility, performance impact, and addon-removal safety remain under validation.
 visibility=public

@@ -6,6 +6,9 @@ if not isServer() then return end
 local M = TVMPerformance
 M.Server = M.Server or {}
 
+local INSTALL_RETRY_INTERVAL_MS = 1000
+local INSTALL_RETRY_MAX_ATTEMPTS = 300
+
 local function nowMs()
     return getTimestampMs and getTimestampMs() or 0
 end
@@ -198,16 +201,84 @@ local function install()
     local registryInstalled = installRegistryHook()
     local commandsInstalled = installCommandHooks()
     local installed = registryInstalled and commandsInstalled
-    if installed and M.diagnosticsEnabled() and not M.Server.installLogged then
+    if installed and not M.Server.installLogged then
         M.Server.installLogged = true
         print(string.format(
             "[TVMPerformance][server] installed mode=%s registry_hook=true command_hooks=true",
             M.visualSyncMode()
         ))
     end
-    return installed
+    return installed, registryInstalled, commandsInstalled
 end
 
 M.Server.install = install
-install()
-if Events.OnInitGlobalModData then Events.OnInitGlobalModData.Add(install) end
+
+local retryState = M.Server.installRetry or {
+    registered = false,
+    attempts = 0,
+    nextAttemptAt = 0,
+    fallbackTicks = 0,
+}
+M.Server.installRetry = retryState
+
+local retryInstall
+
+local function stopRetry()
+    if retryState.registered and Events.OnTick and retryInstall then
+        Events.OnTick.Remove(retryInstall)
+    end
+    retryState.registered = false
+end
+
+local function installFromLifecycleEvent()
+    local installed = install()
+    if installed then stopRetry() end
+end
+
+retryInstall = function()
+    local now = nowMs()
+    if now > 0 then
+        if now < retryState.nextAttemptAt then return end
+        retryState.nextAttemptAt = now + INSTALL_RETRY_INTERVAL_MS
+    else
+        retryState.fallbackTicks = retryState.fallbackTicks + 1
+        if retryState.fallbackTicks < 60 then return end
+        retryState.fallbackTicks = 0
+    end
+
+    retryState.attempts = retryState.attempts + 1
+    local installed, registryInstalled, commandsInstalled = install()
+    if installed then
+        stopRetry()
+        return
+    end
+
+    if retryState.attempts >= INSTALL_RETRY_MAX_ATTEMPTS then
+        print(string.format(
+            "[TVMPerformance][server] unavailable registry_hook=%s command_hooks=%s attempts=%d",
+            tostring(registryInstalled),
+            tostring(commandsInstalled),
+            retryState.attempts
+        ))
+        stopRetry()
+    end
+end
+
+local installed, registryInstalled, commandsInstalled = install()
+if not installed then
+    print(string.format(
+        "[TVMPerformance][server] waiting registry_hook=%s command_hooks=%s retry_interval_ms=%d",
+        tostring(registryInstalled),
+        tostring(commandsInstalled),
+        INSTALL_RETRY_INTERVAL_MS
+    ))
+    if Events.OnTick then
+        retryState.registered = true
+        Events.OnTick.Add(retryInstall)
+    else
+        print("[TVMPerformance][server] unavailable retry_event=false")
+    end
+end
+
+if Events.OnInitGlobalModData then Events.OnInitGlobalModData.Add(installFromLifecycleEvent) end
+if Events.OnServerStarted then Events.OnServerStarted.Add(installFromLifecycleEvent) end

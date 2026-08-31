@@ -9,6 +9,7 @@ Record the exact Project Zomboid and TVM versions, addon revision, enabled mods,
 | Baseline | Addon absent; capture five minutes of visual-request and packet/byte traffic on a fixed route. |
 | Pass-through control | Addon installed with traffic control disabled; behavior and traffic match the baseline. |
 | Event mode | Traffic control and diagnostics enabled after restart/reconnect; automatic visual calls are blocked and normal UI remains immediate. |
+| Server hook startup | Restart the dedicated server with diagnostics enabled; an optional `waiting` line is followed by exactly one `installed` line, with both registry and command hooks reported as `true` and no `unavailable` line. |
 | State changes | Invalid purchase logs no refresh; successful purchase and owner restock log `source=revision_change`; map state is current. |
 | Mixed clients | A client without the addon cannot make the server forward automatic visual requests; normal TVM interaction works. |
 | Save/removal | On a copied world only, reconnect with the addon, then remove only the addon and verify restart and client connection. |

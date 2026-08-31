@@ -8,6 +8,8 @@ Version: **v0.1.0-dev**
 
 Mod ID: **`pz-tvm-fix`**
 
+Workshop ID: **`3793134223`**
+
 License: **Apache-2.0**
 
 ## What it does
