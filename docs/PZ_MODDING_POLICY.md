@@ -18,7 +18,32 @@ This addon must not copy or redistribute TVM or Project Zomboid material without
 | Hidden or unexpected content (2.6) | Pass | Behavior is documented in the Workshop description and repository. Diagnostics are off by default and log only. |
 | Modpacks and abandoned mods (7, 8) | Not applicable | The addon is not a modpack and does not reupload another mod. |
 
+## Valve Mod Content Usage
+
+Policy section 6.1.1 references Valve's Mod Content Usage Policy, published as the [Mod Content Usage](https://developer.valvesoftware.com/wiki/Mod_Content_Usage) page on the Valve Developer Community wiki. Reviewed **2026-09-28** from the page text. The page is community-edited and flagged there as out of date, so treat it as guidance rather than a versioned legal agreement.
+
+| Guidance | Status | Basis |
+| --- | --- | --- |
+| Content from other mods requires the author's permission | Pass | No TVM code, assets, or text are included. The addon wraps TVM functions by name at runtime; see [`spikes/SPIKE-001-tvm-source-architecture-audit.md`](spikes/SPIKE-001-tvm-source-architecture-audit.md). |
+| Content from other games is limited by the owner's license or EULA | Not applicable | No game assets or game code are included or mounted. |
+| User-uploaded content on mod-run forums must be kept free of infringement | Not applicable | The project hosts no asset-sharing forum. |
+
+## Steam Subscriber Agreement
+
+Policy section 6.1.1 also references the [Steam Subscriber Agreement](https://store.steampowered.com/subscriber_agreement/). Reviewed **2026-09-28** against the revision dated September 10, 2026. Only the sections that bear on publishing this Workshop item are listed.
+
+| Section | Status | Basis |
+| --- | --- | --- |
+| 6.A, 6.B: licence granted to Valve for uploaded content; Workshop items are free Subscriptions | Pass | The item is free. Its content is original and Apache-2.0 licensed, so it can be licensed to Valve as the agreement requires. |
+| 6.D: uploader has sufficient rights and the item is original | Pass | Same basis as the Modding Policy third-party row above. |
+| 2.G: no copying, decompiling, or derivative works of Steam Content and Services without permission | Pass | No TVM or Project Zomboid files are copied, decompiled, or redistributed. TVM behavior is changed only at runtime through the Project Zomboid Lua mod system, and no TVM work is submitted (Modding Policy 4.1). TVM Lua was read as shipped, not decompiled; see SPIKE-001. |
+| 2.G(ii): no emulating or redirecting Valve network protocols | Pass | The addon filters TVM's own Lua requests inside the game. It does not touch Steam or Valve protocols. |
+| 4.B: no cheats or unfair competitive advantage | Pass | The addon only reduces automatic visual-sync traffic and gives no gameplay advantage. The server stays authoritative. |
+| 4.C: no automation of gameplay or Steam accounts | Not applicable | The only automated behavior is the server's bounded hook-install retry, which is internal to the mod. |
+| 6.C: disclosure of paid promotion or endorsement | Not applicable | No consideration is received for the item. |
+
+This table is a project compliance record, not a legal opinion.
+
 ## Open items
 
-- Valve's Mod Content Usage Policy and the Steam Subscriber Agreement, referenced by policy section 6.1.1, were not reviewed here.
 - The exact TVM Workshop ID and version are not yet recorded. Add them to the Workshop description's dependency credit once they are confirmed.
