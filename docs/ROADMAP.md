@@ -14,7 +14,7 @@ Reach 1.0 by verifying that the addon can be removed from an existing world, wit
 
 - Diagnostic evidence of automatic request suppression and state-change hooks (2026-08-30).
 - Live dedicated-server use since 2026-08-30 without an addon-related issue.
-- Exact TVM and Project Zomboid compatibility versions (Project Zomboid 42.21.0, TVM Workshop release dated 2026-08-12).
+- Exact TVM and Project Zomboid compatibility versions (Project Zomboid 42.21.0, TVM Workshop release dated 2026-04-20).
 
 ## Later investigation
 

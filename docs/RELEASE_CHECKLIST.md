@@ -5,7 +5,7 @@ Each applicable item needs evidence before the addon is labeled at that stage.
 ## Beta gate
 
 - [x] `VERSION`, `CHANGELOG.md`, both `mod.info` files, and Workshop metadata agree. (0.2.0-beta.)
-- [x] Exact TVM and Project Zomboid compatibility versions are recorded. (Project Zomboid 42.21.0, TVM Workshop release dated 2026-08-12.)
+- [x] Exact TVM and Project Zomboid compatibility versions are recorded. (Project Zomboid 42.21.0, TVM Workshop release dated 2026-04-20.)
 - [x] Diagnostic evidence shows automatic visual requests suppressed and state-change hooks installed. (2026-08-30 smoke test.)
 - [x] Live dedicated-server use on the current Project Zomboid build without an addon-related error. (Live use since 2026-08-30; 42.21.0 checkpoint 2026-09-28.)
 - [x] Public claims match [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md); no measured bandwidth reduction or removal safety is claimed.

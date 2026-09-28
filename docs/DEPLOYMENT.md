@@ -2,7 +2,7 @@
 
 Status: **Beta deployment procedure**
 
-Current compatibility checkpoint: Project Zomboid `42.21.0` (`4a0e9546ec`) with the TVM Workshop release dated 2026-08-12; see [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md).
+Current compatibility checkpoint: Project Zomboid `42.21.0` (`4a0e9546ec`) with the TVM Workshop release dated 2026-04-20; see [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md).
 
 ## Preflight
 
