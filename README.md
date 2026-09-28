@@ -6,6 +6,8 @@ Status: **Alpha — controlled dedicated-server validation in progress**
 
 Version: **v0.1.0-dev**
 
+Tested with: **Project Zomboid 42.21.0** (`4a0e9546ec`) and the TVM Workshop release dated 2026-08-12
+
 Mod ID: **`pz-tvm-fix`**
 
 Workshop ID: **`3793134223`**

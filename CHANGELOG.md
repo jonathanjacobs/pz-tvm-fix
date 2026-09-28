@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Recorded a Project Zomboid 42.21.0 (`4a0e9546ec`) compatibility checkpoint for the published v0.1.0-dev package with the TVM Workshop release dated 2026-08-12, and updated the README, Workshop description, deployment guide, and release checklist to match. No package change.
+
 ## [0.1.0-dev] - 2026-08-30
 
 - Initialized the independent Build 42 TVM traffic-control addon.

@@ -2,6 +2,8 @@
 
 Status: **Alpha pilot procedure**
 
+Current compatibility checkpoint: Project Zomboid `42.21.0` (`4a0e9546ec`) with the TVM Workshop release dated 2026-08-12; see [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md).
+
 ## Preflight
 
 - Record the exact TVM and Project Zomboid versions, then back up the server world, server configuration, and account database.

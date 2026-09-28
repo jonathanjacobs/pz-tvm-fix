@@ -11,7 +11,7 @@ Validate the event-driven guard on a controlled dedicated server without expandi
 - Equal-duration baseline and event-mode packet/byte captures.
 - Multi-player UI, purchase, restock, map-marker, reconnect, and pass-through evidence.
 - Copied-save addon-removal test.
-- Exact TVM and Project Zomboid compatibility versions.
+- Exact TVM and Project Zomboid compatibility versions (recorded: Project Zomboid 42.21.0, TVM Workshop release dated 2026-08-12).
 
 ## Later investigation
 
