@@ -30,7 +30,7 @@
 - Steam Workshop ID: `3793134223`
 - Supported Project Zomboid build: `Build 42; exact version TBD`
 - Primary multiplayer target: `Dedicated multiplayer test server`
-- Upstream dependency: `Trader Vending Machine (TVM); exact Workshop ID/version/API TBD`
+- Upstream dependency: `Trader Vending Machines [42] (TVM); Workshop ID 3699451356; mod ID TraderVendingMachines; tested version/API TBD`
 - Current development state: `Alpha; controlled multiplayer validation in progress`
 
 ## Engineering boundaries

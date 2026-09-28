@@ -46,4 +46,4 @@ This table is a project compliance record, not a legal opinion.
 
 ## Open items
 
-- The exact TVM Workshop ID and version are not yet recorded. Add them to the Workshop description's dependency credit once they are confirmed.
+- None. TVM is credited as a Steam required item (Workshop ID `3699451356`); see [`STEAM_WORKSHOP.md`](STEAM_WORKSHOP.md). Tested TVM versions are tracked in [`ROADMAP.md`](ROADMAP.md).
