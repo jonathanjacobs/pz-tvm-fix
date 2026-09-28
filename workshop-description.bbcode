@@ -1,9 +1,10 @@
-[h1]TVM Network Tuner — ALPHA[/h1]
+[h1]TVM Network Tuner — BETA[/h1]
 
-An optional Project Zomboid Build 42 companion for Trader Vending Machines that reduces automatic visual synchronization traffic.
+An optional Project Zomboid Build 42 companion for Trader Vending Machines that suppresses automatic visual-synchronization polling.
 
-[b]Version:[/b] 0.1.0-dev
+[b]Version:[/b] 0.2.0-beta
 [b]Target:[/b] Project Zomboid Build 42
+[b]Tested with:[/b] Project Zomboid 42.21.0
 
 [h2]What it does[/h2]
 This addon blocks only TVM's automatic visual registry and snapshot polling by default. Normal machine UI, purchases, owner actions, placement, and TVM persistence remain under TVM's existing authority.
@@ -14,7 +15,7 @@ This addon blocks only TVM's automatic visual registry and snapshot polling by d
 - Sandbox-controlled pass-through mode and low-volume diagnostics.
 
 [h2]Current status[/h2]
-This is an ALPHA test build for controlled dedicated-server use. Smoke logs confirm automatic visual-request suppression and state-change hooks. They do not establish a measured bandwidth reduction, broad compatibility, or safe addon removal. Back up a live world before changing its mod list; do not use this addon to remove TVM or repair existing TVM save data.
+This is a BETA build. It has run on a live dedicated server since August 2026 without an addon-related issue, and diagnostic logs confirm automatic visual-request suppression and state-change hooks. Bandwidth savings have not been measured in bytes, and removing the addon from an existing world has not yet been tested. Back up a live world before changing its mod list; do not use this addon to remove TVM or repair existing TVM save data.
 
 [h2]Configuration[/h2]
 [code]
@@ -34,7 +35,7 @@ Mods=pz-tvm-fix
 Install the same addon build with TVM on the server and participating clients.
 
 [h2]Compatibility[/h2]
-Requires Trader Vending Machines on Project Zomboid Build 42. Dedicated-server smoke testing is complete, but exact TVM and Project Zomboid compatibility versions remain to be recorded. If an issue occurs, set traffic control to false, restart, and reconnect before considering addon removal.
+Requires Trader Vending Machines on Project Zomboid Build 42. Tested on a dedicated server with Project Zomboid 42.21.0 and the TVM Workshop release dated 2026-08-12. If an issue occurs, set traffic control to false, restart, and reconnect before considering addon removal.
 
 [h2]Source code, documentation, and issues[/h2]
 [url=https://github.com/jonathanjacobs/pz-tvm-fix]GitHub — TVM Network Tuner repository[/url]

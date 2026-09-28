@@ -1,6 +1,6 @@
 # Testing
 
-Status: **Alpha procedure; smoke evidence is recorded separately**
+Status: **Beta procedure; evidence is recorded separately**
 
 Record the exact Project Zomboid and TVM versions, addon revision, enabled mods, topology, route, machine count, player count, and capture method for every comparison. Keep logs and saves outside the repository; record outcomes in [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md).
 

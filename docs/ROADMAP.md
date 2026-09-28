@@ -1,18 +1,23 @@
 # Roadmap
 
-Status: **Alpha validation**
+Status: **Beta**
 
 ## Current milestone
 
-Validate the event-driven guard on a controlled dedicated server without expanding the addon's persistence scope.
+Reach 1.0 by verifying that the addon can be removed from an existing world, without expanding the addon's persistence scope.
 
-## Exit evidence
+## 1.0 exit evidence
 
-- Equal-duration baseline and event-mode packet/byte captures.
-- Multi-player UI, purchase, restock, map-marker, reconnect, and pass-through evidence.
 - Copied-save addon-removal test.
-- Exact TVM and Project Zomboid compatibility versions.
+
+## Completed for beta
+
+- Diagnostic evidence of automatic request suppression and state-change hooks (2026-08-30).
+- Live dedicated-server use since 2026-08-30 without an addon-related issue.
+- Exact TVM and Project Zomboid compatibility versions (Project Zomboid 42.21.0, TVM Workshop release dated 2026-08-12).
 
 ## Later investigation
 
-TVM cleanup/removal and any stub strategy remain separate, backup-first research. They are not part of this alpha traffic-control release.
+- Equal-duration baseline and event-mode packet/byte captures, if a bandwidth claim is wanted.
+- Multi-player UI, purchase, restock, map-marker, reconnect, and pass-through evidence beyond normal live use.
+- TVM cleanup/removal and any stub strategy remain separate, backup-first research. They are not part of this traffic-control release.

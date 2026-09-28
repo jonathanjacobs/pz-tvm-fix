@@ -1,6 +1,6 @@
 # Architecture
 
-Status: **Alpha implementation; bounded runtime evidence collected**
+Status: **Beta implementation; live-use and bounded runtime evidence collected**
 
 ## Runtime layout
 
