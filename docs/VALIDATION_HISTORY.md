@@ -1,6 +1,11 @@
 # Validation history
 
-Status: **Alpha smoke evidence and Project Zomboid 42.21.0 checkpoint recorded; performance and removal qualification pending**
+Status: **Beta; addon-removal test pending for 1.0**
+
+## 2026-09-28 — beta decision
+
+- Evidence: the 2026-08-30 diagnostic smoke test, the 42.21.0 checkpoint below, a same-day client DebugLog on Project Zomboid `42.20.4` (`b0bbce05d5`) that loads `pz-tvm-fix` with no `TVMPerformance` error, and the operator report of live dedicated-server use since Workshop publication on 2026-08-30 with no addon-related issue.
+- Decision: leave alpha and label the package v0.2.0-beta. Public claims describe automatic-polling suppression, not measured bandwidth reduction. The copied-save addon-removal test is the remaining 1.0 gate.
 
 ## 2026-09-28 — Project Zomboid 42.21.0 compatibility checkpoint
 

@@ -1,10 +1,10 @@
 # TVM Network Tuner
 
-An **alpha** Project Zomboid Build 42 companion for Trader Vending Machines (TVM). It reduces TVM's automatic visual registry and snapshot polling without changing TVM gameplay or copying TVM content.
+A **beta** Project Zomboid Build 42 companion for Trader Vending Machines (TVM). It suppresses TVM's automatic visual registry and snapshot polling without changing TVM gameplay or copying TVM content.
 
-Status: **Alpha — controlled dedicated-server validation in progress**
+Status: **Beta — in live dedicated-server use; addon-removal test pending for 1.0**
 
-Version: **v0.1.0-dev**
+Version: **v0.2.0-beta**
 
 Tested with: **Project Zomboid 42.21.0** (`4a0e9546ec`) and the TVM Workshop release dated 2026-08-12
 
@@ -21,13 +21,13 @@ License: **Apache-2.0**
 - Refreshes TVM's existing deduplicated map-marker path after a successful TVM state revision or detected direct container change.
 - Offers a server-controlled pass-through switch and low-volume diagnostics.
 
-## Alpha boundary
+## Beta boundary
 
-Observed logs confirm request suppression and successful state-change hooks. They do **not** establish a measured byte reduction, broad live compatibility, or safe addon removal. Do not use this addon to remove TVM or repair existing TVM save data.
+The addon has run in live dedicated-server use since 2026-08-30 without an addon-related issue, and diagnostic logs confirm automatic request suppression and successful state-change hooks. Bandwidth savings have not been measured in bytes, and removing the addon from an existing world has not yet been tested; back up the world before changing its mod list. Do not use this addon to remove TVM or repair existing TVM save data.
 
 ## Install and test
 
-Install the same addon build with TVM on the dedicated server and each client, then restart the server and reconnect clients. Event-driven traffic control is enabled by default; diagnostics are disabled by default. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the alpha rollout/rollback procedure and [`docs/TESTING.md`](docs/TESTING.md) for the repeatable test matrix.
+Install the same addon build with TVM on the dedicated server and each client, then restart the server and reconnect clients. Event-driven traffic control is enabled by default; diagnostics are disabled by default. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the rollout/rollback procedure and [`docs/TESTING.md`](docs/TESTING.md) for the repeatable test matrix.
 
 ## Repository map
 

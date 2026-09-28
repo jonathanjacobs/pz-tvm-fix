@@ -31,7 +31,7 @@
 - Supported Project Zomboid build: `Build 42; tested with 42.21.0 (4a0e9546ec)`
 - Primary multiplayer target: `Dedicated multiplayer test server`
 - Upstream dependency: `Trader Vending Machines [42] (TVM); Workshop ID 3699451356; mod ID TraderVendingMachines; tested with the Workshop release dated 2026-08-12`
-- Current development state: `Alpha; controlled multiplayer validation in progress`
+- Current development state: `Beta; in live dedicated-server use; addon-removal test pending for 1.0`
 
 ## Engineering boundaries
 

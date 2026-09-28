@@ -1,6 +1,6 @@
 # Requirements
 
-Status: **Alpha traffic-control implementation**
+Status: **Beta traffic-control implementation**
 
 ## Project identity
 

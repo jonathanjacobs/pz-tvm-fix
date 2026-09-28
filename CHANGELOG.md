@@ -1,8 +1,10 @@
 # Changelog
 
-## Unreleased
+## [0.2.0-beta] - 2026-09-28
 
-- Recorded a Project Zomboid 42.21.0 (`4a0e9546ec`) compatibility checkpoint for the published v0.1.0-dev package with the TVM Workshop release dated 2026-08-12, and updated the README, Workshop description, deployment guide, and release checklist to match. No package change.
+- Moved from alpha to beta after live dedicated-server use since 2026-08-30 without an addon-related issue. No runtime change; the package differs from v0.1.0-dev only in `modversion`.
+- Recorded a Project Zomboid 42.21.0 (`4a0e9546ec`) compatibility checkpoint with the TVM Workshop release dated 2026-08-12.
+- Restated the public claim as automatic-polling suppression rather than measured bandwidth reduction, dropped the `WIP` Workshop tag, and split the release checklist into beta and 1.0 gates. The copied-save addon-removal test remains the 1.0 gate.
 
 ## [0.1.0-dev] - 2026-08-30
 
