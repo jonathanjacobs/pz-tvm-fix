@@ -2,9 +2,9 @@
 
 Authoritative policy: <https://projectzomboid.com/blog/modding-policy/>
 
-Last reviewed: **2026-09-28**, against the policy page marked "Last Updated: 04/10/2022", for alpha Workshop item `3793134223` at package revision `0bc8905`.
+Last reviewed: **2026-09-28**, against the policy page marked "Last Updated: 04/10/2022", for Workshop item `3793134223` at package revision `0bc8905`.
 
-This addon must not copy or redistribute TVM or Project Zomboid material without verified rights, and must not imply official endorsement. Before each Workshop update or non-alpha release, recheck the current policy, provenance of each distributed file, and the release checklist.
+This addon must not copy or redistribute TVM or Project Zomboid material without verified rights, and must not imply official endorsement. Before each Workshop update or release, recheck the current policy, provenance of each distributed file, and the release checklist.
 
 ## Review outcome
 

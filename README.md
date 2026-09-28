@@ -6,7 +6,7 @@ Status: **Beta — in live dedicated-server use; addon-removal test pending for 
 
 Version: **v0.2.0-beta**
 
-Tested with: **Project Zomboid 42.21.0** (`4a0e9546ec`) and the TVM Workshop release dated 2026-08-12
+Tested with: **Project Zomboid 42.21.0** (`4a0e9546ec`) and the TVM Workshop release dated 2026-04-20
 
 Mod ID: **`pz-tvm-fix`**
 

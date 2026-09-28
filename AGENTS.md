@@ -29,8 +29,8 @@
 - Mod ID: `pz-tvm-fix` (fixed; the published Workshop item uses it, so do not rename)
 - Steam Workshop ID: `3793134223`
 - Supported Project Zomboid build: `Build 42; tested with 42.21.0 (4a0e9546ec)`
-- Primary multiplayer target: `Dedicated multiplayer test server`
-- Upstream dependency: `Trader Vending Machines [42] (TVM); Workshop ID 3699451356; mod ID TraderVendingMachines; tested with the Workshop release dated 2026-08-12`
+- Primary multiplayer target: `Dedicated multiplayer server`
+- Upstream dependency: `Trader Vending Machines [42] (TVM); Workshop ID 3699451356; mod ID TraderVendingMachines; tested with the Workshop release dated 2026-04-20`
 - Current development state: `Beta; in live dedicated-server use; addon-removal test pending for 1.0`
 
 ## Engineering boundaries

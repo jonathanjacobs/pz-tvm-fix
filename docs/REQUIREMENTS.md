@@ -6,7 +6,7 @@ Status: **Beta traffic-control implementation**
 
 - Mod ID: `pz-tvm-fix`
 - Target: Project Zomboid Build 42 dedicated multiplayer
-- Dependency: Trader Vending Machine (TVM); exact compatible release remains to be recorded
+- Dependency: Trader Vending Machines [42] (TVM); the tested release is recorded in [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md)
 
 ## Scope
 
