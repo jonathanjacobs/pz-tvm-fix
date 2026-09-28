@@ -26,7 +26,7 @@
 ## Project facts
 
 - Mod name: `TVM Network Tuner`
-- Mod ID: `pz-tvm-fix` (provisional; do not release until confirmed stable)
+- Mod ID: `pz-tvm-fix` (fixed; the published Workshop item uses it, so do not rename)
 - Steam Workshop ID: `3793134223`
 - Supported Project Zomboid build: `Build 42; exact version TBD`
 - Primary multiplayer target: `Dedicated multiplayer test server`
