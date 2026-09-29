@@ -63,6 +63,8 @@ Choose the increment by what an update does to people already running the mod:
 | Minor (`x.Y.0`) | New features, sandbox options, or other contracts, with existing behavior and defaults unchanged | Existing worlds and settings keep working as before |
 | Patch (`x.y.Z`) | Fixes that change no contract | Existing worlds and settings keep working, now without the bug |
 
+A pre-release may add a SemVer suffix to the number it leads up to, such as `0.2.0-beta` or `1.0.0-rc.1`; `tools/validate-package.sh` accepts it and requires the same suffix everywhere the version appears.
+
 Below `1.0.0` the mod is still settling, and a minor release may carry a breaking change; its `Upgrading` note must still say so and what to do. Keep breaking changes rare either way: every one costs every server running the mod.
 
 Watch these during normal play rather than staging tests for them, record anything notable in [`VALIDATION_HISTORY.md`](VALIDATION_HISTORY.md), and treat a real problem as a blocker for the next release: joins, disconnects, deaths, and respawns leaving stale state; optional presentation (notifications, UI) missing or noisy; CPU cost or log volume becoming a problem for the server.
