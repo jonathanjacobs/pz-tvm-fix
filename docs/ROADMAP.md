@@ -27,7 +27,6 @@ The repository was restructured to pz-mod-template v0.9.0 without changing the m
 - `VERSION` is `0.2.0-beta`, and `tools/validate-package.sh` accepts only `x.y.z`, so the validator, and the Validate Package check on GitHub, report an error until the version scheme or the check changes.
 - Both `mod.info` files lack `author=` and `category=`, and `42/mod.info` has no `poster=` or `icon=` artwork. The template recommends all four.
 - The Lua has no build stamp or version handshake (see [`DESIGN.md`](DESIGN.md#build-stamp-and-version-handshake)), so confirming that server and clients run the same build is not yet a log search.
-- Both `mod.info` files have `versionMin=42.13`, but the oldest recorded test is Project Zomboid 42.20.4. Set `versionMin=42.20.4` in both files right after adoption, as its own commit with a changelog entry; it reaches players with the next Workshop upload.
 
 ## Later investigation
 
