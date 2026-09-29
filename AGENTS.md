@@ -51,8 +51,6 @@ Keep this section short and current. Record what an agent starting cold must kno
 - `main` is the only branch.
 - Evidence exists for automatic visual-request suppression and server hook installation (2026-08-30 smoke test), and for loading on Project Zomboid 42.21.0 with no addon error (2026-09-28). No evidence yet for measured bandwidth reduction, broad compatibility, or safe removal of the addon from an existing world. The 0.3.0-beta build stamp and version handshake have not yet run in game. See `docs/VALIDATION_HISTORY.md`.
 - Log trap: `[TVMFix]` lines come from the separate TraderVendingMachinesFix mod, not this addon. With diagnostics off, a 0.3.0-beta client logs only its `Loaded v` banner and `SERVER_BUILD` line (earlier builds log no `[TVMPerformance]` lines at all), so the absence of other lines proves nothing about the hooks.
-- Adoption gaps, left for later releases because adoption did not change the package (tasks in `docs/ROADMAP.md`):
-  - `42/mod.info` has no `poster=` or `icon=` artwork.
 
 ## Engineering boundaries
 

@@ -13,6 +13,7 @@ Planned as 0.3.0-beta; `VERSION` and both `mod.info` files already carry it. 0.2
 ### Added
 
 - Build stamp and version handshake. `TVMPerformance_Version.lua` defines the build once; the server logs a `Loaded v` banner and a `CONFIG | build=` line with the effective settings, and the client logs a `Loaded v` banner. When a player's game starts, the client sends one `RequestBuildState`, the server replies to that player with `BuildState`, and the client logs `SERVER_BUILD` and, if the builds differ, `BUILD_MISMATCH`. This is the addon's first client/server command pair, hence the minor version bump.
+- Mod Manager artwork: `42/mod.info` now references `poster.png` (the 256×256 Workshop preview art) and `icon.png` (the same art scaled to 32×32).
 
 ### Changed
 

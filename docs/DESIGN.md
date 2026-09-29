@@ -74,6 +74,8 @@ Contents/mods/pz-tvm-fix/
     media/lua/shared/Translate/EN/Sandbox_EN.txt
   42/
     mod.info
+    poster.png
+    icon.png
     media/
       lua/
         client/TVMPerformance/TVMPerformance_Client.lua
@@ -85,7 +87,7 @@ Contents/mods/pz-tvm-fix/
 
 Build 42 expects both a `common/` folder and a build-specific `42/` folder beside the root `mod.info`. This mod keeps its sandbox translations under `common/`.
 
-The template's recommended `mod.info` carries the same `id=`, `name=`, `description=`, `author=`, `category=`, `modversion=`, and `versionMin=` values in both files, and the build-specific `42/mod.info` also references `poster=` and `icon=` artwork. This mod's two `mod.info` files are identical and carry `name=`, `id=`, `description=`, `author=`, `category=features`, `require=TraderVendingMachines`, `versionMin=42.20.4`, and `modversion=`; `poster=` and `icon=` are not yet present (see [`ROADMAP.md`](ROADMAP.md)). `category=` only sets the in-game Mod Manager filter, and only `map`, `vehicle`, `features`, and `modpack` are known to create one; Steam Workshop tags are set separately in `workshop.txt`. Use `modversion=` for the mod's release version (not `version=`), and set `versionMin=` to the oldest Project Zomboid build the mod has actually been tested on. Keep `modversion=` equal to [`../VERSION`](../VERSION); the package validator checks this.
+The template's recommended `mod.info` carries the same `id=`, `name=`, `description=`, `author=`, `category=`, `modversion=`, and `versionMin=` values in both files, and the build-specific `42/mod.info` also references `poster=` and `icon=` artwork. This mod's two `mod.info` files carry the same `name=`, `id=`, `description=`, `author=`, `category=features`, `require=TraderVendingMachines`, `versionMin=42.20.4`, and `modversion=`, and `42/mod.info` adds `poster=poster.png` (256×256, the Workshop preview art) and `icon=icon.png` (32×32, the same art scaled down). `category=` only sets the in-game Mod Manager filter, and only `map`, `vehicle`, `features`, and `modpack` are known to create one; Steam Workshop tags are set separately in `workshop.txt`. Use `modversion=` for the mod's release version (not `version=`), and set `versionMin=` to the oldest Project Zomboid build the mod has actually been tested on. Keep `modversion=` equal to [`../VERSION`](../VERSION); the package validator checks this.
 
 There is one authoritative runtime tree. Do not create a second root-level `42/`, `common/`, `media/`, or `mod.info` copy.
 
