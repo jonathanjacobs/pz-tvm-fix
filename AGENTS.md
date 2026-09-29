@@ -55,7 +55,6 @@ Keep this section short and current. Record what an agent starting cold must kno
   - `VERSION` is `0.2.0-beta`; `tools/validate-package.sh` accepts only `x.y.z` and reports an error, so the Validate Package check fails until the version scheme or the check changes.
   - Both `mod.info` files lack `author=` and `category=`, and `42/mod.info` has no `poster=` or `icon=` artwork.
   - The Lua has no build stamp or version handshake, so the same-build check in `docs/TESTING.md` cannot yet be read from logs.
-  - `versionMin=42.13` in both `mod.info` files is older than any recorded test; it is to become `42.20.4` in its own commit right after adoption.
 
 ## Engineering boundaries
 
