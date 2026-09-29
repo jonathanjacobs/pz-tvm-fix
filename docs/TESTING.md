@@ -25,7 +25,7 @@ Record the exact Project Zomboid and TVM versions, addon revision, enabled mods,
 - Tests run on a remote dedicated server with one player joining. Deploying to it and collecting its logs are manual steps until test-cycle scripts are added (see [Local files and automation](#local-files-and-automation)).
 - `bash tools/validate-package.sh` passes for the build under test, and so does `bash tools/check-lua-syntax.sh` (or the "Check Lua syntax" CI job, where no Lua 5.1 compiler is installed locally).
 - Server and clients show the same Project Zomboid `version=` / `revision=` line and the same mod build (server `CONFIG | build=`, client `SERVER_BUILD`, and no `BUILD_MISMATCH`; see the build-stamp convention in [`DESIGN.md`](DESIGN.md#build-stamp-and-version-handshake)).
-- For this mod: the server log shows `[TVMPerformance][server] CONFIG | build=<VERSION>`, and right after joining each client log shows `[TVMPerformance][client] SERVER_BUILD | <VERSION>` with no `BUILD_MISMATCH`. A client with no `SERVER_BUILD` line is joined to a server running a build older than 0.3.0-beta, or one without this addon.
+- For this mod: the server log shows `[TVMPerformance][server] CONFIG | build=<VERSION>`, and within a few seconds of joining each client log shows `[TVMPerformance][client] SERVER_BUILD | <VERSION>` with no `BUILD_MISMATCH`. A client with no `SERVER_BUILD` line is joined to a server running a build older than 0.3.1-beta, or one without this addon.
 - Only one copy of the mod is installed on each machine. A local copy and a Workshop copy with the same Mod ID can load mixed Lua and sandbox-option versions, which makes every result untrustworthy.
 - Note the active sandbox settings; expected results use the active settings, not the shipped defaults.
 
@@ -35,7 +35,7 @@ Run after any change, new release, or Project Zomboid update.
 
 1. The server starts and a client joins with no Lua errors from this mod on either side.
 2. The server log shows exactly one `[TVMPerformance][server] installed … registry_hook=true command_hooks=true` line after startup, and no `unavailable` line. This line appears even with diagnostics off.
-3. Both logs show the build stamp for the build under test: on the server, one `Loaded v<VERSION>` banner and one `CONFIG | build=<VERSION>` line; on the client, one `Loaded v<VERSION>` banner and, right after joining, exactly one `SERVER_BUILD | <VERSION>` line and no `BUILD_MISMATCH`.
+3. Both logs show the build stamp for the build under test: on the server, one `Loaded v<VERSION>` banner and one `CONFIG | build=<VERSION>` line; on the client, one `Loaded v<VERSION>` banner and, within a few seconds of joining (after `ReceivePlayerConnect`), exactly one `SERVER_BUILD | <VERSION>` line and no `BUILD_MISMATCH`.
 4. Disabled optional features stay quiet, and diagnostics produce no output while off. With diagnostics off, the lines in steps 2 and 3 are the only `[TVMPerformance]` output.
 
 ## Core behavior test

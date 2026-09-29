@@ -41,7 +41,7 @@ This mod's repository was restructured from an existing repository to match [pz-
 - Supported Project Zomboid build: `Build 42; tested with 42.21.0 (4a0e9546ec)`
 - Primary multiplayer target: `Dedicated multiplayer server`
 - Upstream dependency: `Trader Vending Machines [42] (TVM); Workshop ID 3699451356; mod ID TraderVendingMachines; tested with the Workshop release dated 2026-04-20`
-- Current development branch/release state: `main only; beta (0.3.0-beta, not yet uploaded; the Workshop still has 0.1.0-dev); in live dedicated-server use; addon-removal test pending for 1.0`
+- Current development branch/release state: `main only; beta (Workshop has 0.3.0-beta, uploaded 2026-09-29; main is 0.3.1-beta, not yet uploaded); in live dedicated-server use; addon-removal test pending for 1.0`
 - Template version: `v0.9.0` (the pz-mod-template release this repository's files match; update it after applying a template upgrade)
 
 ## Current development context
@@ -49,8 +49,8 @@ This mod's repository was restructured from an existing repository to match [pz-
 Keep this section short and current. Record what an agent starting cold must know that the code does not show: which branches are live and what each is for, which behavior has evidence and which does not yet, and any environment trap that has already produced a misleading result. Do not represent unproven behavior as proven here.
 
 - `main` is the only branch.
-- Evidence exists for automatic visual-request suppression and server hook installation (2026-08-30 smoke test), and for loading on Project Zomboid 42.21.0 with no addon error (2026-09-28). No evidence yet for measured bandwidth reduction, broad compatibility, or safe removal of the addon from an existing world. The 0.3.0-beta build stamp and version handshake have not yet run in game. See `docs/VALIDATION_HISTORY.md`.
-- Log trap: `[TVMFix]` lines come from the separate TraderVendingMachinesFix mod, not this addon. With diagnostics off, a 0.3.0-beta client logs only its `Loaded v` banner and `SERVER_BUILD` line (earlier builds log no `[TVMPerformance]` lines at all), so the absence of other lines proves nothing about the hooks.
+- Evidence exists for automatic visual-request suppression and server hook installation (2026-08-30 smoke test), and for loading on Project Zomboid 42.21.0 with no addon error (2026-09-28). No evidence yet for measured bandwidth reduction, broad compatibility, or safe removal of the addon from an existing world. The 0.3.0-beta server build stamp (`Loaded v`, `CONFIG | build=`) and client `Loaded v` banner were seen in game on 2026-09-29, but the client never logged `SERVER_BUILD`; the 0.3.1-beta server-initiated handshake that fixes this has not yet run in game. See `docs/VALIDATION_HISTORY.md`.
+- Log trap: `[TVMFix]` lines come from the separate TraderVendingMachinesFix mod, not this addon. With diagnostics off, a 0.3.0-beta or later client logs only its `Loaded v` banner and `SERVER_BUILD` line (earlier builds log no `[TVMPerformance]` lines at all), so the absence of other lines proves nothing about the hooks.
 
 ## Engineering boundaries
 

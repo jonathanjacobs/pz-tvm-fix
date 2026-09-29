@@ -10,6 +10,7 @@ This is an append-only ledger. If a later run overturns an earlier entry, add a 
 
 | Date | Version | Scope | Outcome | Evidence |
 | --- | --- | --- | --- | --- |
+| 2026-09-29 | 0.3.0-beta | Smoke test, build stamp and handshake | Smoke test `INCOMPLETE`; build-stamp handshake `FAIL`, client logged no `SERVER_BUILD` (fixed in 0.3.1-beta, not yet tested) | [entry](#2026-09-29--smoke-test-build-stamp-and-handshake) |
 | 2026-09-28 | 0.2.0-beta | Beta decision | Left alpha; the copied-save addon-removal test remains the 1.0 gate | [entry](#2026-09-28--beta-decision) |
 | 2026-09-28 | 0.1.0-dev | Project Zomboid 42.21.0 compatibility checkpoint | No `TVMPerformance` error in five client logs; hook and counter lines were not logged | [entry](#2026-09-28--project-zomboid-42210-compatibility-checkpoint) |
 | 2026-08-30 | 0.1.0-dev (`d70d78c`) | Event-driven smoke test | Automatic requests suppressed with zero forwarded; both server hooks installed | [entry](#2026-08-30--event-driven-smoke-test) |
@@ -48,6 +49,20 @@ Only `PASS` and `PASS with conditions` count as evidence for the [release checkl
 Entries are public. Describe servers by kind ("a rented dedicated server"), and replace IP addresses, Steam IDs, and other players' names in quoted log values with placeholders; see [`PRIVATE_DATA.md`](PRIVATE_DATA.md).
 
 For a Project Zomboid update, this entry is the compatibility checkpoint: record it before changing any "tested with" claim or `versionMin=`.
+
+## 2026-09-29 — smoke test, build stamp and handshake
+
+Build `0.3.0-beta` from the Workshop item (the server and the client both loaded it from Workshop content `3793134223`) on Project Zomboid `42.21.0` `4a0e9546ec`; a rented dedicated server with one player joining from a Windows client for about 70 seconds. Logs reviewed: the server console and DebugLog from startup through the session, and the client `console.txt`, DebugLog, and connections log for the same window.
+
+- Same build: both sides loaded `pz-tvm-fix` `0.3.0-beta` from the Workshop copy; no local copy was loaded.
+- Server: `[TVMPerformance][server] installed mode=event registry_hook=true command_hooks=true`, then `Loaded v0.3.0-beta TVM visual traffic guard.`, then once at startup `CONFIG | build=0.3.0-beta | mode=event | diagnostics=false | diagnostics_interval_s=60 | slice_interval_s=15 | movement_tiles=8 | snapshot_interval_s=10`. No `unavailable` line.
+- Client: `[TVMPerformance][client] Loaded v0.3.0-beta TVM visual request guard.`, and no other `[TVMPerformance]` line. No `SERVER_BUILD` and no `BUILD_MISMATCH`.
+- Cause of the missing `SERVER_BUILD`: the client sends `RequestBuildState` at `OnGameStart`, which in this log fires when `GameLoadingState` exits, before `Waiting for player-connect response from server` and `ReceivePlayerConnect`. The server logged no reply and no error, so the request most likely arrived before the server had registered the player and was dropped. Enshrouded Sleep's server-initiated state messages, in the same client log, arrived right after `ReceivePlayerConnect`.
+- No Lua error from this addon on either side. The `mod "pz-tvm-fix" overrides icon.png` line and four `NoSuchFileException` lines for `AnimSets` and `actiongroups` under the mod folders also appear for dozens of other mods and are engine output, not addon errors.
+
+Result: smoke test `INCOMPLETE` (steps 1, 2, and 4 passed: no addon Lua error, hooks installed, and with diagnostics off the only `[TVMPerformance]` lines were the expected ones; step 3 failed on the client's missing `SERVER_BUILD`); build-stamp handshake `FAIL`, fixed in 0.3.1-beta by having the server send `BuildState` once each player connects (see the 0.3.1-beta entry in [`../CHANGELOG.md`](../CHANGELOG.md)).
+
+Not covered: the 0.3.1-beta fix; how the poster and icon look in the Mod Manager (not visible in logs); a `BUILD_MISMATCH` case; more than one player; reconnects.
 
 ## 2026-09-28 — beta decision
 

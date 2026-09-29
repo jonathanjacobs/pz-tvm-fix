@@ -14,7 +14,7 @@ Permanent Steam Workshop ID: `3793134223`
 - Title: `Trader Vending Machines - Network Tuner`. The title follows TVM's naming so the addon is found next to it.
 - Tags: Build 42, Multiplayer, QoL. The `WIP` tag was dropped when the addon left alpha.
 - Required item: Trader Vending Machines [42], Workshop ID `3699451356`, mod ID `TraderVendingMachines`. TVM publishes no version number; record its Workshop update date as its version.
-- Published revision: `27e277c` (v0.1.0-dev), uploaded 2026-08-30; the Workshop change note for that upload lists the late-start hook retries. v0.2.0-beta was never uploaded; the next upload is v0.3.0-beta, which adds the build stamp and version handshake (see [`../CHANGELOG.md`](../CHANGELOG.md)).
+- Published revision: v0.3.0-beta, uploaded 2026-09-29. The exact commit was not recorded; the Workshop copy includes the poster and icon, so it was built from `eeea107` or later. v0.2.0-beta was never uploaded; the previous upload was `27e277c` (v0.1.0-dev) on 2026-08-30. The next upload is v0.3.1-beta, which fixes the client never logging `SERVER_BUILD` (see [`../CHANGELOG.md`](../CHANGELOG.md)).
 
 ## Release gates
 
@@ -22,7 +22,7 @@ Each applicable item needs evidence before the addon is labeled at that stage.
 
 ### Beta gate
 
-- [x] `VERSION`, `CHANGELOG.md`, both `mod.info` files, and Workshop metadata agree. (0.3.0-beta.)
+- [x] `VERSION`, `CHANGELOG.md`, both `mod.info` files, and Workshop metadata agree. (0.3.1-beta.)
 - [x] Exact TVM and Project Zomboid compatibility versions are recorded. (Project Zomboid 42.21.0, TVM Workshop release dated 2026-04-20.)
 - [x] Diagnostic evidence shows automatic visual requests suppressed and state-change hooks installed. (2026-08-30 smoke test.)
 - [x] Live dedicated-server use on the current Project Zomboid build without an addon-related error. (Live use since 2026-08-30; 42.21.0 checkpoint 2026-09-28.)

@@ -8,7 +8,19 @@ Format: newest release first, each as `## [x.y.z] - YYYY-MM-DD` with `Added`, `C
 
 ## [Unreleased]
 
-Planned as 0.3.0-beta; `VERSION` and both `mod.info` files already carry it. 0.2.0-beta was never uploaded to the Workshop.
+Planned as 0.3.1-beta; `VERSION` and both `mod.info` files already carry it.
+
+### Fixed
+
+- The client never logged `SERVER_BUILD`. A 0.3.0-beta client sent `RequestBuildState` at `OnGameStart`, which fires before the server has registered the player, so the request got no reply (2026-09-29 smoke test). The server now sends `BuildState` once to each player a few seconds after they connect, found by a local check of its online-player list; clients no longer send `RequestBuildState`, and the server still answers it for 0.3.0-beta clients.
+
+### Upgrading
+
+- Update the server and clients together as usual. The fix is on the server side: a 0.3.0-beta client already handles `BuildState`, so on a 0.3.1-beta server it logs `SERVER_BUILD | 0.3.1-beta` and, correctly, `BUILD_MISMATCH` until it updates. A 0.3.1-beta client joined to a 0.3.0-beta server logs no `SERVER_BUILD` line.
+
+## [0.3.0-beta] - 2026-09-29
+
+0.2.0-beta was never uploaded to the Workshop; this release includes its changes.
 
 ### Added
 
