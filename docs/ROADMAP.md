@@ -25,8 +25,6 @@ Reach 1.0 by verifying that the addon can be removed from an existing world, wit
 The repository was restructured to pz-mod-template v0.9.0 without changing the mod package. These differences from the template were recorded for a later release, each as its own change with its own test:
 
 - `42/mod.info` has no `poster=` or `icon=` artwork. The template recommends both.
-- The Lua has no build stamp or version handshake (see [`DESIGN.md`](DESIGN.md#build-stamp-and-version-handshake)), so confirming that server and clients run the same build is not yet a log search.
-
 ## Later investigation
 
 - Equal-duration baseline and event-mode packet/byte captures, if a bandwidth claim is wanted.

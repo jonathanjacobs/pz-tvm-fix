@@ -5,4 +5,4 @@ author=Jonathan Jacobs
 category=features
 require=TraderVendingMachines
 versionMin=42.20.4
-modversion=0.2.0-beta
+modversion=0.3.0-beta

@@ -55,9 +55,9 @@ Some names outlive the code that defines them, because something outside the cur
 | Sandbox option | `TVMPerformance.VisualMovementThresholdTiles` (integer 1–60, default `8`) | `42/media/sandbox-options.txt` | 0.1.0-dev |
 | Sandbox option | `TVMPerformance.VisualSnapshotIntervalSeconds` (integer 1–300, default `10`) | `42/media/sandbox-options.txt` | 0.1.0-dev |
 | ModData keys | None. The addon owns no persistent state (`R5`) | — | — |
-| Client/server commands | None of its own. The addon wraps TVM's existing handlers | — | — |
+| Client/server commands | Module `TVMPerformance`: client-to-server `RequestBuildState` (no args) and server-to-client `BuildState` (`{ protocolVersion = 1, buildVersion }`), the version handshake. The addon otherwise wraps TVM's existing handlers | `42/media/lua/server/TVMPerformance/TVMPerformance_Server.lua`, `client/TVMPerformance/TVMPerformance_Client.lua` | 0.3.0-beta |
 | Script full types | None | — | — |
-| Lua modules | None offered to other mods. The global table `TVMPerformance` and the module path `TVMPerformance/TVMPerformance_Config` are internal, not a supported interface | `42/media/lua/shared/TVMPerformance/TVMPerformance_Config.lua` | — |
+| Lua modules | None offered to other mods. The global table `TVMPerformance` and the module paths `TVMPerformance/TVMPerformance_Config` and `TVMPerformance/TVMPerformance_Version` are internal, not a supported interface | `42/media/lua/shared/TVMPerformance/` | — |
 
 A change to a listed name follows the rules in `AGENTS.md`: only on explicit request, with an `Upgrading` note in [`../CHANGELOG.md`](../CHANGELOG.md) and a version number chosen as [`RELEASING.md`](RELEASING.md#choosing-the-version-number) describes. Mark a retired name `retired in x.y.z` instead of deleting its row, so the history of what saves may still contain stays visible.
 
@@ -79,6 +79,7 @@ Contents/mods/pz-tvm-fix/
         client/TVMPerformance/TVMPerformance_Client.lua
         server/TVMPerformance/TVMPerformance_Server.lua
         shared/TVMPerformance/TVMPerformance_Config.lua
+        shared/TVMPerformance/TVMPerformance_Version.lua
       sandbox-options.txt
 ```
 
@@ -92,8 +93,6 @@ There is one authoritative runtime tree. Do not create a second root-level `42/`
 
 Recommended from the first multiplayer build. Mixed-version installs — a stale local copy beside the Workshop copy, a client that has not downloaded the update, or a server that has not restarted — are a common cause of confusing test results, and they are invisible unless the mod reports which build is running.
 
-This mod does not have a build stamp yet; adding one is recorded in [`ROADMAP.md`](ROADMAP.md).
-
 - Define the build version once, in a shared module (for example `42/media/lua/shared/<ModName>/Version.lua` returning `{ BUILD_VERSION = "x.y.z" }`), and `require` it wherever the version is needed. Keep it equal to [`../VERSION`](../VERSION); [`../tools/validate-package.sh`](../tools/validate-package.sh) rejects any `BUILD_VERSION = "..."`, `buildVersion = "..."`, or `Loaded vX.Y.Z` literal in runtime Lua that disagrees.
 - **Server:** log the build and the effective configuration once at startup, for example `[<ModName>] CONFIG | build=x.y.z | <key settings>`.
 - **Server to client:** include `buildVersion` in the first state message each client receives.
@@ -101,10 +100,12 @@ This mod does not have a build stamp yet; adding one is recorded in [`ROADMAP.md
 
 With this in place, confirming that everyone runs the same package is a log search rather than a guess, and it is the first step in [`TESTING.md`](TESTING.md#before-testing) and in post-release verification.
 
+Current state in this mod (since 0.3.0-beta; the version module, log lines, and `protocolVersion`/`buildVersion` message fields match Enshrouded Sleep): the version is defined once, in `42/media/lua/shared/TVMPerformance/TVMPerformance_Version.lua`, which returns `{ BUILD_VERSION = "…" }`, and the client and server files require it. Each logs a `Loaded v…` banner when it loads. The server logs `[TVMPerformance][server] CONFIG | build=… | mode=… | …` once at `OnServerStarted`. The addon has no state messages of its own to carry `buildVersion`, so the handshake runs once per login instead: at `OnGameStart` the client sends `RequestBuildState`, and the server replies to that player only with `BuildState` (`protocolVersion = 1`, `buildVersion`). Nothing repeats and neither side polls. The client logs `[TVMPerformance][client] SERVER_BUILD | …` when the server's build is first seen or changes, and `ERROR | BUILD_MISMATCH | client=… | server=…` once when it differs. A server on a build older than 0.3.0-beta ignores the request, so a newer client joined to it logs no `SERVER_BUILD` line at all; a client older than 0.3.0-beta never asks, so the server logs nothing about it either.
+
 ### Components
 
 The shared configuration reads sandbox settings at request time. The client guard intercepts only TVM calls marked `source = "visuals_runtime"`: registry slices, visual snapshot batches, and visual fallback snapshots. Event mode blocks them; throttled mode remains an operator fallback. Public UI traffic is not wrapped.
 
 The server applies the same policy to TVM visual handlers, protecting against unmodified or misconfigured clients. If TVM's server tables are not ready when the addon loads, installation retries once per second for up to five minutes and stops immediately after both hooks attach. It wraps TVM's `bumpRevision` to request a deduplicated map-marker refresh after completed TVM mutations, and wraps `syncAllMachinesFromWorld()` as a fallback for detected direct container changes. It owns no durable state.
 
-Server hook startup emits one low-volume status sequence even when diagnostics are disabled. Diagnostics are otherwise opt-in and log-only: interval aggregates for visual requests plus rate-limited marker-refresh attempts. They count guard decisions and refresh attempts, not packet bytes. See [`TESTING.md`](TESTING.md) for measurement requirements and [`spikes/SPIKE-001-tvm-source-architecture-audit.md`](spikes/SPIKE-001-tvm-source-architecture-audit.md) for the source boundary.
+Server hook startup emits one low-volume status sequence even when diagnostics are disabled, and both sides log the build stamp described above. The one `RequestBuildState`/`BuildState` exchange per login is the only network traffic the addon originates. Diagnostics are otherwise opt-in and log-only: interval aggregates for visual requests plus rate-limited marker-refresh attempts. They count guard decisions and refresh attempts, not packet bytes. See [`TESTING.md`](TESTING.md) for measurement requirements and [`spikes/SPIKE-001-tvm-source-architecture-audit.md`](spikes/SPIKE-001-tvm-source-architecture-audit.md) for the source boundary.

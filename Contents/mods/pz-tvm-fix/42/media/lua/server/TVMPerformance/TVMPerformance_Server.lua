@@ -1,5 +1,6 @@
 -- Server-authoritative policy for TVM automatic visual synchronization.
 require "TVMPerformance/TVMPerformance_Config"
+local Version = require "TVMPerformance/TVMPerformance_Version"
 
 if not isServer() then return end
 
@@ -8,6 +9,11 @@ M.Server = M.Server or {}
 
 local INSTALL_RETRY_INTERVAL_MS = 1000
 local INSTALL_RETRY_MAX_ATTEMPTS = 300
+
+local BUILD_STATE_MODULE = "TVMPerformance"
+local BUILD_STATE_REQUEST = "RequestBuildState"
+local BUILD_STATE_COMMAND = "BuildState"
+local BUILD_STATE_PROTOCOL_VERSION = 1
 
 local function nowMs()
     return getTimestampMs and getTimestampMs() or 0
@@ -282,3 +288,39 @@ end
 
 if Events.OnInitGlobalModData then Events.OnInitGlobalModData.Add(installFromLifecycleEvent) end
 if Events.OnServerStarted then Events.OnServerStarted.Add(installFromLifecycleEvent) end
+
+-- Build stamp: log the build and effective settings once, after sandbox settings load.
+local function logConfig()
+    if M.Server.configLogged then return end
+    M.Server.configLogged = true
+    print(string.format(
+        "[TVMPerformance][server] CONFIG | build=%s | mode=%s | diagnostics=%s | diagnostics_interval_s=%d | slice_interval_s=%d | movement_tiles=%d | snapshot_interval_s=%d",
+        Version.BUILD_VERSION,
+        M.visualSyncMode(),
+        tostring(M.diagnosticsEnabled()),
+        math.floor(M.diagnosticsIntervalMs() / 1000),
+        math.floor(M.visualSliceIntervalMs() / 1000),
+        M.visualMovementThresholdTiles(),
+        math.floor(M.visualSnapshotIntervalMs() / 1000)
+    ))
+end
+
+if Events.OnServerStarted then Events.OnServerStarted.Add(logConfig) else logConfig() end
+
+-- Version handshake: each client asks once when its game starts; reply to that
+-- player only with this server's build.
+local function onClientCommand(module, command, player, args)
+    if module ~= BUILD_STATE_MODULE or command ~= BUILD_STATE_REQUEST then return end
+    local ok, err = pcall(sendServerCommand, player, BUILD_STATE_MODULE, BUILD_STATE_COMMAND, {
+        protocolVersion = BUILD_STATE_PROTOCOL_VERSION,
+        buildVersion = Version.BUILD_VERSION,
+    })
+    if not ok and not M.Server.buildStateErrorLogged then
+        M.Server.buildStateErrorLogged = true
+        print("[TVMPerformance][server] ERROR | BuildState reply failed: " .. tostring(err))
+    end
+end
+
+if Events.OnClientCommand then Events.OnClientCommand.Add(onClientCommand) end
+
+print("[TVMPerformance][server] Loaded v" .. Version.BUILD_VERSION .. " TVM visual traffic guard.")

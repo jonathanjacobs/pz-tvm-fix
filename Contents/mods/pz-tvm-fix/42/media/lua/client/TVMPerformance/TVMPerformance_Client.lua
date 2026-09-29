@@ -1,5 +1,6 @@
 -- Limits only TVM automatic visual-runtime requests; UI and gameplay calls pass through.
 require "TVMPerformance/TVMPerformance_Config"
+local Version = require "TVMPerformance/TVMPerformance_Version"
 
 if isServer() then return end
 
@@ -182,3 +183,45 @@ M.Client.install = install
 install()
 Events.OnGameStart.Add(install)
 Events.OnCreatePlayer.Add(install)
+
+-- Version handshake: ask the server for its build once when the game starts,
+-- then log the server's build and, if it differs, a mismatch.
+local BUILD_STATE_MODULE = "TVMPerformance"
+local BUILD_STATE_REQUEST = "RequestBuildState"
+local BUILD_STATE_COMMAND = "BuildState"
+local BUILD_STATE_PROTOCOL_VERSION = 1
+
+local lastServerBuild = nil
+local lastBuildError = nil
+
+local function logBuildErrorOnce(message)
+    if message == lastBuildError then return end
+    lastBuildError = message
+    print("[TVMPerformance][client] ERROR | " .. message)
+end
+
+local function onServerCommand(module, command, args)
+    if module ~= BUILD_STATE_MODULE or command ~= BUILD_STATE_COMMAND then return end
+    if type(args) ~= "table" or tonumber(args.protocolVersion) ~= BUILD_STATE_PROTOCOL_VERSION then
+        logBuildErrorOnce("unsupported BuildState protocolVersion=" .. tostring(type(args) == "table" and args.protocolVersion or nil))
+        return
+    end
+    local serverBuild = tostring(args.buildVersion or "unknown")
+    if serverBuild ~= lastServerBuild then
+        lastServerBuild = serverBuild
+        print("[TVMPerformance][client] SERVER_BUILD | " .. serverBuild)
+    end
+    if serverBuild ~= Version.BUILD_VERSION then
+        logBuildErrorOnce("BUILD_MISMATCH | client=" .. Version.BUILD_VERSION .. " | server=" .. serverBuild)
+    end
+end
+
+local function requestBuildState()
+    if not isClient() then return end
+    sendClientCommand(BUILD_STATE_MODULE, BUILD_STATE_REQUEST, {})
+end
+
+if Events.OnServerCommand then Events.OnServerCommand.Add(onServerCommand) end
+Events.OnGameStart.Add(requestBuildState)
+
+print("[TVMPerformance][client] Loaded v" .. Version.BUILD_VERSION .. " TVM visual request guard.")
