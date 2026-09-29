@@ -8,6 +8,12 @@ Format: newest release first, each as `## [x.y.z] - YYYY-MM-DD` with `Added`, `C
 
 ## [Unreleased]
 
+Planned as 0.3.0-beta; `VERSION` and both `mod.info` files already carry it. 0.2.0-beta was never uploaded to the Workshop.
+
+### Added
+
+- Build stamp and version handshake. `TVMPerformance_Version.lua` defines the build once; the server logs a `Loaded v` banner and a `CONFIG | build=` line with the effective settings, and the client logs a `Loaded v` banner. When a player's game starts, the client sends one `RequestBuildState`, the server replies to that player with `BuildState`, and the client logs `SERVER_BUILD` and, if the builds differ, `BUILD_MISMATCH`. This is the addon's first client/server command pair, hence the minor version bump.
+
 ### Changed
 
 - Restructured the repository to [pz-mod-template](https://github.com/jonathanjacobs/pz-mod-template) v0.9.0. The mod package under `Contents/mods/pz-tvm-fix/` is unchanged. Documentation moved into the template's documents: requirements and architecture into `docs/DESIGN.md`; the release checklist, Workshop notes, and deployment steps into `docs/RELEASING.md`; asset and third-party notes into `CREDITS.md`; compliance notes into `docs/PZ_MODDING_POLICY.md`.
@@ -22,6 +28,7 @@ Format: newest release first, each as `## [x.y.z] - YYYY-MM-DD` with `Added`, `C
 ### Upgrading
 
 - Servers and players need Project Zomboid 42.20.4 or later to load this version of the addon.
+- Nothing else to do. The handshake only logs; it never refuses a client or server on a different build. A 0.3.0-beta client joined to an older server logs no `SERVER_BUILD` line, which shows that the server still needs the update.
 
 ## [0.2.0-beta] - 2026-09-28
 
