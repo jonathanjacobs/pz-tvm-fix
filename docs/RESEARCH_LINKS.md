@@ -8,6 +8,7 @@ External reference sources for the target Project Zomboid build. These are citat
 
 - Community wiki: `TBD`
 - Javadocs / API reference: `TBD`
+- `mod.info` parameters, including the known `category=` values: <https://pz-wiki-modding.github.io/PZ-API-Docs/scripts/root_files/modinfo.html>
 - Other stable references: `TBD`
 
 Local copies (saved wiki pages, community notes, other Workshop mods studied for implementation ideas) belong in a local folder outside the repository; this file is for stable links only.
