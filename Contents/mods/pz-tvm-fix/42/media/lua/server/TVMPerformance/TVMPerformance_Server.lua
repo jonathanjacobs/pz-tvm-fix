@@ -14,6 +14,7 @@ local BUILD_STATE_MODULE = "TVMPerformance"
 local BUILD_STATE_REQUEST = "RequestBuildState"
 local BUILD_STATE_COMMAND = "BuildState"
 local BUILD_STATE_PROTOCOL_VERSION = 1
+local BUILD_STATE_SCAN_INTERVAL_MS = 5000
 
 local function nowMs()
     return getTimestampMs and getTimestampMs() or 0
@@ -307,18 +308,63 @@ end
 
 if Events.OnServerStarted then Events.OnServerStarted.Add(logConfig) else logConfig() end
 
--- Version handshake: each client asks once when its game starts; reply to that
--- player only with this server's build.
-local function onClientCommand(module, command, player, args)
-    if module ~= BUILD_STATE_MODULE or command ~= BUILD_STATE_REQUEST then return end
+-- Version handshake: send this server's build once to each player per connection.
+-- A client's own request at OnGameStart arrives before the server has registered
+-- the player and is lost (2026-09-29 smoke test), so the server sends instead,
+-- once the player is in the online list. Finding new players is a local check;
+-- the only network traffic is one BuildState per join.
+local function sendBuildState(player)
     local ok, err = pcall(sendServerCommand, player, BUILD_STATE_MODULE, BUILD_STATE_COMMAND, {
         protocolVersion = BUILD_STATE_PROTOCOL_VERSION,
         buildVersion = Version.BUILD_VERSION,
     })
     if not ok and not M.Server.buildStateErrorLogged then
         M.Server.buildStateErrorLogged = true
-        print("[TVMPerformance][server] ERROR | BuildState reply failed: " .. tostring(err))
+        print("[TVMPerformance][server] ERROR | BuildState send failed: " .. tostring(err))
     end
+end
+
+local buildStateSent = {}
+local nextBuildStateScanAt = 0
+
+local function sendBuildStateToNewPlayers()
+    local now = nowMs()
+    if now <= 0 or now < nextBuildStateScanAt then return end
+    nextBuildStateScanAt = now + BUILD_STATE_SCAN_INTERVAL_MS
+    if type(getOnlinePlayers) ~= "function" then return end
+    local players = getOnlinePlayers()
+    if not players then return end
+
+    local online = {}
+    for i = 0, players:size() - 1 do
+        local player = players:get(i)
+        local key = playerKey(player)
+        if key ~= "" then
+            online[key] = true
+            if not buildStateSent[key] then
+                buildStateSent[key] = true
+                sendBuildState(player)
+            end
+        end
+    end
+    -- Forget players who left, so a reconnect gets BuildState again.
+    local gone = {}
+    for key in pairs(buildStateSent) do
+        if not online[key] then gone[#gone + 1] = key end
+    end
+    for i = 1, #gone do buildStateSent[gone[i]] = nil end
+end
+
+if Events.OnTickEvenPaused then
+    Events.OnTickEvenPaused.Add(sendBuildStateToNewPlayers)
+elseif Events.OnTick then
+    Events.OnTick.Add(sendBuildStateToNewPlayers)
+end
+
+-- 0.3.0-beta clients also ask with RequestBuildState; keep answering them.
+local function onClientCommand(module, command, player, args)
+    if module ~= BUILD_STATE_MODULE or command ~= BUILD_STATE_REQUEST then return end
+    sendBuildState(player)
 end
 
 if Events.OnClientCommand then Events.OnClientCommand.Add(onClientCommand) end

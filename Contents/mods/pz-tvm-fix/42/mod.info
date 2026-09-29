@@ -7,4 +7,4 @@ icon=icon.png
 category=features
 require=TraderVendingMachines
 versionMin=42.20.4
-modversion=0.3.0-beta
+modversion=0.3.1-beta

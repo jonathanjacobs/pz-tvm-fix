@@ -184,10 +184,9 @@ install()
 Events.OnGameStart.Add(install)
 Events.OnCreatePlayer.Add(install)
 
--- Version handshake: ask the server for its build once when the game starts,
--- then log the server's build and, if it differs, a mismatch.
+-- Version handshake: the server sends BuildState once after this player joins.
+-- Log the server's build and, if it differs, a mismatch.
 local BUILD_STATE_MODULE = "TVMPerformance"
-local BUILD_STATE_REQUEST = "RequestBuildState"
 local BUILD_STATE_COMMAND = "BuildState"
 local BUILD_STATE_PROTOCOL_VERSION = 1
 
@@ -216,12 +215,6 @@ local function onServerCommand(module, command, args)
     end
 end
 
-local function requestBuildState()
-    if not isClient() then return end
-    sendClientCommand(BUILD_STATE_MODULE, BUILD_STATE_REQUEST, {})
-end
-
 if Events.OnServerCommand then Events.OnServerCommand.Add(onServerCommand) end
-Events.OnGameStart.Add(requestBuildState)
 
 print("[TVMPerformance][client] Loaded v" .. Version.BUILD_VERSION .. " TVM visual request guard.")
