@@ -27,7 +27,7 @@ The addon has run in live dedicated-server use since 2026-08-30 without an addon
 
 ## Install and test
 
-Install the same addon build with TVM on the dedicated server and each client, then restart the server and reconnect clients. Event-driven traffic control is enabled by default; diagnostics are disabled by default. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the rollout/rollback procedure and [`docs/TESTING.md`](docs/TESTING.md) for the repeatable test matrix.
+Install the same addon build with TVM on the dedicated server and each client, then restart the server and reconnect clients. Event-driven traffic control is enabled by default; diagnostics are disabled by default. See [`docs/RELEASING.md`](docs/RELEASING.md#deploying-to-a-server) for the rollout and rollback procedure and [`docs/TESTING.md`](docs/TESTING.md) for the repeatable test matrix.
 
 ## Repository map
 
@@ -39,3 +39,5 @@ Install the same addon build with TVM on the dedicated server and each client, t
 ## License and rights
 
 This is an unofficial, independent community addon. TVM, Project Zomboid, Steam, and their assets remain the property of their respective owners; this repository redistributes none of them.
+
+Built with [pz-mod-template](https://github.com/jonathanjacobs/pz-mod-template).
