@@ -1,12 +1,16 @@
-# Project Zomboid / local runtime output
+# Project Zomboid / local runtime output, anchored to the repository root.
+# Unanchored, "Server/" also matches the package's media/lua/server/ on a
+# case-insensitive checkout (the Windows and macOS default) and drops server Lua.
 /Zomboid/
-/Logs/
 /Saves/
 /Server/
 /Workshop/
 *.log
+DebugLog*/
+server-console*.txt
 
 # Local and editor files
+.claude/settings.local.json
 .DS_Store
 Thumbs.db
 .vscode/
@@ -17,10 +21,28 @@ Thumbs.db
 dist/
 exports/
 *.zip
+*.7z
+*.bak
+*.tmp
+workshop-staging/
+build/
 
 # Never commit private or game-derived material
 .env
 .env.*
+*.env
 !*.env.example
-decompiled/
+*.pem
+*.ppk
+id_rsa*
+id_ecdsa*
+id_ed25519*
 extracted-game-assets/
+
+# Test logs, decompiled game source, and research material belong in local
+# folders outside the repository. These lines catch copies placed here anyway.
+Logs/
+decompiled/
+research-source/
+*.java
+*.class

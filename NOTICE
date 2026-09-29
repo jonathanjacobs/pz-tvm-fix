@@ -1,7 +1,17 @@
 TVM Network Tuner
 
-Copyright 2026
+Copyright 2026 Jonathan Jacobs
 
 The original source in this repository is licensed under the Apache License, Version 2.0.
 
 This repository contains independent Project Zomboid addon material. Project Zomboid and Trader Vending Machine names, code, assets, and other property remain the property of their respective owners. They are not included in or relicensed by this repository.
+
+---
+
+pz-mod-template
+Copyright 2026 Jonathan Jacobs
+https://github.com/jonathanjacobs/pz-mod-template
+
+Licensed under the Apache License, Version 2.0.
+
+This repository contains starter material for independent Project Zomboid mod development. Project Zomboid is developed by The Indie Stone; Project Zomboid names, code, assets, and other property remain the property of their respective owners. They are not included in or relicensed by this repository, and a mod created from it is an unofficial independent community mod.

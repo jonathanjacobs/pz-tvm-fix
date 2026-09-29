@@ -1,5 +1,5 @@
 version=1
-workshopid=3793134223
+id=3793134223
 title=Trader Vending Machines - Network Tuner
 description=BETA. Build 42 companion for Trader Vending Machines that suppresses automatic visual-synchronization polling on dedicated servers. Requires TraderVendingMachines. Tested with Project Zomboid 42.21.0; addon-removal safety is not yet verified.
 visibility=public
