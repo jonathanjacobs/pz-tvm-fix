@@ -20,11 +20,6 @@ Reach 1.0 by verifying that the addon can be removed from an existing world, wit
 - Live dedicated-server use since 2026-08-30 without an addon-related issue.
 - Exact TVM and Project Zomboid compatibility versions (Project Zomboid 42.21.0, TVM Workshop release dated 2026-04-20).
 
-## Gaps from adopting pz-mod-template
-
-The repository was restructured to pz-mod-template v0.9.0 without changing the mod package. These differences from the template were recorded for a later release, each as its own change with its own test:
-
-- `42/mod.info` has no `poster=` or `icon=` artwork. The template recommends both.
 ## Later investigation
 
 - Equal-duration baseline and event-mode packet/byte captures, if a bandwidth claim is wanted.
