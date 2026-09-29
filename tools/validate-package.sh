@@ -35,9 +35,13 @@ text() { tr -d '\r' < "$1"; }
 # Identity
 # ---------------------------------------------------------------------------
 
+# x.y.z with an optional SemVer pre-release suffix (x.y.z-beta, x.y.z-rc.1).
+# Dot-separated identifiers keep a sentence-ending period out of a match.
+VERSION_RE='[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?'
+
 VERSION_VALUE="$(tr -d '\r\n' < VERSION 2>/dev/null || true)"
-if [[ ! "$VERSION_VALUE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  fail "VERSION must hold a single x.y.z version (found '$VERSION_VALUE')"
+if [[ ! "$VERSION_VALUE" =~ ^${VERSION_RE}$ ]]; then
+  fail "VERSION must hold a single x.y.z or x.y.z-prerelease version (found '$VERSION_VALUE')"
 fi
 
 mapfile -t mod_dirs < <(find Contents/mods -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
@@ -121,7 +125,7 @@ fi
 # Every bold version label in README.md (for example **v1.2.3**) must match.
 while read -r label; do
   [[ "$label" == "v$VERSION_VALUE" ]] || fail "README.md shows version $label (expected v$VERSION_VALUE)"
-done < <(grep -oE '\*\*v[0-9]+\.[0-9]+\.[0-9]+\*\*' README.md 2>/dev/null | tr -d '*' | sort -u)
+done < <(grep -oE "\*\*v${VERSION_RE}\*\*" README.md 2>/dev/null | tr -d '*' | sort -u)
 
 BBCODE="docs/workshop-description.bbcode"
 # Template 0.6.0 moved the description from the repository root into docs/.
@@ -145,7 +149,7 @@ fi
 if [[ -f workshop.txt ]]; then
   while read -r label; do
     [[ "$label" == "v$VERSION_VALUE" ]] || fail "workshop.txt description shows $label (expected v$VERSION_VALUE)"
-  done < <(text workshop.txt | sed -n 's/^description=//p' | grep -oE '\bv[0-9]+\.[0-9]+\.[0-9]+\b' | sort -u)
+  done < <(text workshop.txt | sed -n 's/^description=//p' | grep -oE "\bv${VERSION_RE}\b" | sort -u)
 fi
 
 # Runtime build stamps (see docs/DESIGN.md): BUILD_VERSION = "x.y.z",
@@ -153,11 +157,11 @@ fi
 if [[ -d "$RUNTIME_LUA" ]]; then
   while read -r stamp; do
     [[ "$stamp" == "$VERSION_VALUE" ]] || fail "runtime Lua build stamp \"$stamp\" does not match VERSION $VERSION_VALUE"
-  done < <(grep -RhoE '(BUILD_VERSION|buildVersion)[[:space:]]*=[[:space:]]*"[0-9]+\.[0-9]+\.[0-9]+"' "$RUNTIME_LUA" 2>/dev/null \
-             | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | sort -u)
+  done < <(grep -RhoE "(BUILD_VERSION|buildVersion)[[:space:]]*=[[:space:]]*\"${VERSION_RE}\"" "$RUNTIME_LUA" 2>/dev/null \
+             | grep -oE "$VERSION_RE" | sort -u)
   while read -r stamp; do
     [[ "$stamp" == "v$VERSION_VALUE" ]] || fail "runtime Lua load banner shows $stamp (expected v$VERSION_VALUE)"
-  done < <(grep -RhoE 'Loaded v[0-9]+\.[0-9]+\.[0-9]+' "$RUNTIME_LUA" 2>/dev/null | sed 's/^Loaded //' | sort -u)
+  done < <(grep -RhoE "Loaded v${VERSION_RE}" "$RUNTIME_LUA" 2>/dev/null | sed 's/^Loaded //' | sort -u)
 fi
 
 # ---------------------------------------------------------------------------

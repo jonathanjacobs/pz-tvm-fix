@@ -16,6 +16,7 @@ Format: newest release first, each as `## [x.y.z] - YYYY-MM-DD` with `Added`, `C
 - `.gitignore` anchors root-level runtime folders, so server Lua is never ignored.
 - Landed in this repository as a single change on the `adopt-pz-mod-template` branch; the package tree ID is unchanged (`261c7c3d4fb2f3a4c450c4935cf31bd6a3f410c7`).
 - Raised `versionMin` in both `mod.info` files from `42.13` to `42.20.4`, the oldest Project Zomboid build the addon has been tested on.
+- `tools/validate-package.sh` accepts a SemVer pre-release suffix such as `0.2.0-beta`, so the Validate Package check no longer fails on this beta. The version-drift checks now compare the full version, suffix included; before, a README label such as `**v0.2.0-beta**` was not checked at all.
 
 ### Upgrading
 

@@ -52,7 +52,6 @@ Keep this section short and current. Record what an agent starting cold must kno
 - Evidence exists for automatic visual-request suppression and server hook installation (2026-08-30 smoke test), and for loading on Project Zomboid 42.21.0 with no addon error (2026-09-28). No evidence yet for measured bandwidth reduction, broad compatibility, or safe removal of the addon from an existing world. See `docs/VALIDATION_HISTORY.md`.
 - Log trap: `[TVMFix]` lines come from the separate TraderVendingMachinesFix mod, not this addon. With diagnostics off, client logs show no `[TVMPerformance]` lines at all, so their absence proves nothing about the hooks.
 - Adoption gaps, left for later releases because adoption did not change the package (tasks in `docs/ROADMAP.md`):
-  - `VERSION` is `0.2.0-beta`; `tools/validate-package.sh` accepts only `x.y.z` and reports an error, so the Validate Package check fails until the version scheme or the check changes.
   - Both `mod.info` files lack `author=` and `category=`, and `42/mod.info` has no `poster=` or `icon=` artwork.
   - The Lua has no build stamp or version handshake, so the same-build check in `docs/TESTING.md` cannot yet be read from logs.
 

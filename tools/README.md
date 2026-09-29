@@ -16,7 +16,8 @@ It always checks:
 
 - exactly one mod under `Contents/mods/`, a `common/` and `42/` folder, and no stray root-level runtime copy;
 - both `mod.info` files: `id=` matches the folder, `modversion=` matches `VERSION`, no legacy `version=` key, and `42/mod.info` has `versionMin=`;
-- version drift: bold `**vX.Y.Z**` labels in `README.md`, `[b]Version:[/b]` in `docs/workshop-description.bbcode`, `vX.Y.Z` in the `workshop.txt` description, and runtime Lua build stamps (`BUILD_VERSION = "X.Y.Z"`, `buildVersion = "X.Y.Z"`, `Loaded vX.Y.Z`) must all match `VERSION`;
+- `VERSION` holds `X.Y.Z` or `X.Y.Z` with a SemVer pre-release suffix such as `-beta` or `-rc.1`;
+- version drift: bold `**vX.Y.Z**` labels in `README.md`, `[b]Version:[/b]` in `docs/workshop-description.bbcode`, `vX.Y.Z` in the `workshop.txt` description, and runtime Lua build stamps (`BUILD_VERSION = "X.Y.Z"`, `buildVersion = "X.Y.Z"`, `Loaded vX.Y.Z`) must all match `VERSION`, pre-release suffix included;
 - every sandbox option has a `translation =` line with an EN `Sandbox_<key>` label (JSON or `Sandbox_EN.txt`, under `42/` or `common/`), and every sandbox page has a label;
 - no logs, backups, archives, `.env` files, or Java sources/classes inside the package;
 - `NOTICE` still carries the pz-mod-template attribution block (a warning, never an error);
